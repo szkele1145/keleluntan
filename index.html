@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>可乐论坛 - 快乐交流社区</title>
+    <title>可乐论坛</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f0f2f5; color: #333; min-height: 100vh; }
@@ -14,11 +14,11 @@
         .nav-title span { color: #ff6b35; }
         .nav-subtitle { color: rgba(255,255,255,0.6); font-size: 12px; }
         .nav-right { display: flex; gap: 10px; align-items: center; }
-        .btn { padding: 8px 20px; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 500; transition: all 0.3s; border: none; outline: none; text-decoration: none; display: inline-block; }
+        .btn { padding: 8px 20px; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 500; transition: all 0.3s; border: none; outline: none; }
         .btn-primary { background: #ff6b35; color: #fff; }
-        .btn-primary:hover { background: #ff8c5a; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(255, 107, 53, 0.4); }
+        .btn-primary:hover { background: #ff8c5a; }
         .btn-outline { background: transparent; color: #fff; border: 2px solid rgba(255,255,255,0.3); }
-        .btn-outline:hover { border-color: #ff6b35; color: #ff6b35; background: rgba(255,255,255,0.1); }
+        .btn-outline:hover { border-color: #ff6b35; color: #ff6b35; }
         .btn-danger { background: #e74c3c; color: #fff; }
         .btn-sm { padding: 4px 12px; font-size: 12px; }
         .container { max-width: 960px; margin: 0 auto; padding: 24px; }
@@ -32,12 +32,12 @@
         .welcome-banner .stats .stat-label { font-size: 12px; opacity: 0.8; }
         .board-section { margin-bottom: 20px; }
         .board-tabs { display: flex; gap: 8px; flex-wrap: wrap; background: #fff; padding: 12px 16px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
-        .board-tab { padding: 8px 18px; border-radius: 20px; cursor: pointer; background: #f5f5f5; color: #666; font-size: 14px; transition: all 0.3s; border: none; user-select: none; }
+        .board-tab { padding: 8px 18px; border-radius: 20px; cursor: pointer; background: #f5f5f5; color: #666; font-size: 14px; transition: all 0.3s; border: none; }
         .board-tab:hover { background: #e8e8e8; color: #333; }
-        .board-tab.active { background: #ff6b35; color: #fff; box-shadow: 0 2px 8px rgba(255, 107, 53, 0.3); }
+        .board-tab.active { background: #ff6b35; color: #fff; }
         .post-list { display: flex; flex-direction: column; gap: 10px; }
         .post-card { background: #fff; padding: 16px 20px; border-radius: 10px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); cursor: pointer; transition: all 0.3s; border: 1px solid transparent; }
-        .post-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.1); border-color: #ff6b35; transform: translateY(-2px); }
+        .post-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.1); border-color: #ff6b35; }
         .post-card .post-title { font-size: 16px; font-weight: 600; margin-bottom: 8px; color: #1a1a2e; }
         .post-card .post-meta { font-size: 13px; color: #999; display: flex; gap: 16px; flex-wrap: wrap; }
         .post-card .post-meta span { display: flex; align-items: center; gap: 4px; }
@@ -48,44 +48,36 @@
         .page-btn:disabled { cursor: not-allowed; opacity: 0.4; }
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center; backdrop-filter: blur(4px); }
         .modal.show { display: flex; }
-        .modal-content { background: #fff; padding: 30px; border-radius: 16px; width: 90%; max-width: 520px; max-height: 85vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); animation: modalIn 0.3s ease; }
-        @keyframes modalIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-        .modal-title { font-size: 20px; font-weight: 700; margin-bottom: 24px; color: #1a1a2e; display: flex; align-items: center; gap: 8px; }
+        .modal-content { background: #fff; padding: 30px; border-radius: 16px; width: 90%; max-width: 520px; max-height: 85vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .modal-title { font-size: 20px; font-weight: 700; margin-bottom: 24px; color: #1a1a2e; }
         .form-group { margin-bottom: 16px; }
         .form-group label { display: block; margin-bottom: 6px; font-size: 14px; color: #555; font-weight: 500; }
         .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 10px 14px; border: 2px solid #e8e8e8; border-radius: 8px; font-size: 14px; transition: all 0.3s; font-family: inherit; }
-        .form-group input:focus, .form-group textarea:focus, .form-group select:focus { outline: none; border-color: #ff6b35; box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1); }
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus { outline: none; border-color: #ff6b35; }
         .form-group textarea { min-height: 120px; resize: vertical; }
-        .form-group .hint { color: #999; font-size: 12px; margin-top: 4px; }
         .auth-switch { text-align: center; margin-top: 16px; font-size: 14px; color: #999; }
         .auth-switch a { color: #ff6b35; cursor: pointer; text-decoration: none; font-weight: 500; }
         .modal-footer { display: flex; gap: 8px; margin-top: 20px; }
         .modal-footer .btn { flex: 1; text-align: center; }
         .user-info { display: flex; align-items: center; gap: 10px; }
-        .avatar { width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg, #ff6b35, #ff8c5a); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: bold; box-shadow: 0 2px 8px rgba(255, 107, 53, 0.3); }
+        .avatar { width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg, #ff6b35, #ff8c5a); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: bold; }
         .user-name { color: #fff; font-size: 14px; font-weight: 500; }
-        .user-role { background: #ffd700; color: #1a1a2e; font-size: 10px; padding: 2px 6px; border-radius: 10px; font-weight: 600; }
-        .toast-container { position: fixed; top: 20px; right: 20px; z-index: 2000; display: flex; flex-direction: column; gap: 8px; }
-        .toast { padding: 14px 24px; border-radius: 10px; color: #fff; font-size: 14px; box-shadow: 0 4px 20px rgba(0,0,0,0.2); animation: toastIn 0.3s ease; }
+        .user-role { background: #ffd700; color: #1a1a2e; font-size: 10px; padding: 2px 6px; border-radius: 10px; }
+        .toast-container { position: fixed; top: 20px; right: 20px; z-index: 2000; }
+        .toast { padding: 14px 24px; border-radius: 10px; color: #fff; font-size: 14px; box-shadow: 0 4px 20px rgba(0,0,0,0.2); margin-bottom: 8px; }
         .toast.success { background: #52c41a; }
         .toast.error { background: #ff4d4f; }
-        .toast.info { background: #1890ff; }
-        @keyframes toastIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
         .loading { text-align: center; padding: 60px; color: #999; }
-        .loading::after { content: ''; display: inline-block; width: 24px; height: 24px; border: 3px solid #f0f0f0; border-top-color: #ff6b35; border-radius: 50%; animation: spin 0.8s linear infinite; margin-left: 8px; vertical-align: middle; }
-        @keyframes spin { to { transform: rotate(360deg); } }
         .empty-state { text-align: center; padding: 60px 20px; color: #999; }
         .empty-state .empty-icon { font-size: 64px; margin-bottom: 16px; }
-        .post-detail-body { line-height: 1.8; font-size: 15px; color: #333; white-space: pre-wrap; padding: 16px 0; border-top: 1px solid #f0f0f0; border-bottom: 1px solid #f0f0f0; margin-bottom: 16px; }
-        .comments-section h4 { font-size: 16px; margin-bottom: 12px; color: #1a1a2e; }
-        .comment-item { padding: 12px 16px; border-radius: 8px; background: #f8f9fa; margin-bottom: 8px; }
+        .post-detail-body { line-height: 1.8; font-size: 15px; white-space: pre-wrap; padding: 16px 0; border-top: 1px solid #f0f0f0; border-bottom: 1px solid #f0f0f0; margin-bottom: 16px; }
+        .comment-item { padding: 12px 16px; background: #f8f9fa; border-radius: 8px; margin-bottom: 8px; }
         .comment-item .comment-header { display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 13px; }
-        .comment-item .comment-author { font-weight: 600; color: #333; }
+        .comment-item .comment-author { font-weight: 600; }
         .comment-item .comment-time { color: #999; }
-        .comment-item .comment-content { font-size: 14px; line-height: 1.6; }
-        .comment-input-area { margin-top: 16px; padding: 16px; background: #f8f9fa; border-radius: 8px; }
-        .comment-input-area textarea { width: 100%; padding: 10px; border: 1px solid #e0e0e0; border-radius: 8px; font-size: 14px; min-height: 60px; font-family: inherit; resize: vertical; }
-        @media (max-width: 600px) { .container { padding: 12px; } .nav { padding: 12px 16px; } .welcome-banner { padding: 20px; } .welcome-banner::before { font-size: 50px; right: 15px; } .welcome-banner .stats { gap: 15px; } }
+        .comment-input-area { margin-top: 16px; }
+        .comment-input-area textarea { width: 100%; padding: 10px; border: 1px solid #e0e0e0; border-radius: 8px; font-size: 14px; min-height: 60px; font-family: inherit; }
+        @media (max-width: 600px) { .container { padding: 12px; } .nav { padding: 12px 16px; } .welcome-banner { padding: 20px; } }
     </style>
 </head>
 <body>
@@ -97,14 +89,14 @@
                 <div class="nav-subtitle">快乐交流，畅所欲言</div>
             </div>
         </div>
-        <div class="nav-right">
-            <button class="btn btn-outline" onclick="showLoginModal()" id="loginBtn">登录</button>
-            <button class="btn btn-primary" onclick="showCreatePostModal()" id="createPostBtn" style="display:none">+ 发帖</button>
+        <div class="nav-right" id="navRight">
+            <button class="btn btn-outline" onclick="showLogin()" id="loginBtn">登录</button>
+            <button class="btn btn-primary" onclick="showCreatePost()" id="postBtn" style="display:none">+ 发帖</button>
             <div id="userInfo" style="display:none" class="user-info">
-                <div class="avatar" id="avatarDisplay">可</div>
+                <div class="avatar" id="avatarEl">可</div>
                 <div>
-                    <div class="user-name" id="nicknameDisplay">用户</div>
-                    <div class="user-role" id="roleDisplay" style="display:none">管理员</div>
+                    <div class="user-name" id="nameEl">用户</div>
+                    <div class="user-role" id="roleEl" style="display:none">管理员</div>
                 </div>
                 <button class="btn btn-outline btn-sm" onclick="logout()">退出</button>
             </div>
@@ -114,390 +106,340 @@
     <div class="container">
         <div class="welcome-banner">
             <h1>🥤 欢迎来到可乐论坛</h1>
-            <p>这里是可乐的快乐社区，输入邮箱就能玩！</p>
+            <p>输入邮箱就能玩，新用户自动注册！</p>
             <div class="stats">
-                <div class="stat-item"><div class="stat-number" id="totalPosts">0</div><div class="stat-label">帖子</div></div>
-                <div class="stat-item"><div class="stat-number" id="totalUsers">0</div><div class="stat-label">用户</div></div>
-                <div class="stat-item"><div class="stat-number" id="totalComments">0</div><div class="stat-label">评论</div></div>
+                <div class="stat-item"><div class="stat-number" id="statPosts">0</div><div class="stat-label">帖子</div></div>
+                <div class="stat-item"><div class="stat-number" id="statUsers">0</div><div class="stat-label">用户</div></div>
+                <div class="stat-item"><div class="stat-number" id="statComments">0</div><div class="stat-label">评论</div></div>
             </div>
         </div>
 
         <div class="board-section">
-            <div class="board-tabs" id="boardTabs">
-                <button class="board-tab active" onclick="switchBoard(0)" data-board-id="0">📋 全部</button>
-            </div>
+            <div class="board-tabs" id="boardTabs"></div>
         </div>
 
-        <div class="post-list" id="postList">
-            <div class="loading">加载中</div>
-        </div>
-
+        <div class="post-list" id="postList"><div class="loading">加载中...</div></div>
         <div class="pagination" id="pagination"></div>
     </div>
 
-    <div class="toast-container" id="toastContainer"></div>
+    <div id="toastContainer" class="toast-container"></div>
 
-    <!-- 登录 Modal -->
-    <div class="modal" id="authModal">
+    <!-- 登录弹窗 -->
+    <div class="modal" id="loginModal">
         <div class="modal-content">
-            <div class="modal-title">🥤 登录可乐论坛</div>
+            <div class="modal-title" id="loginTitle">🥤 登录可乐论坛</div>
             <div class="form-group">
-                <label>📧 邮箱</label>
-                <input type="email" id="emailInput" placeholder="输入邮箱，新用户自动注册">
-                <p class="hint">新用户点下面设置昵称，老用户直接登录</p>
+                <label>邮箱</label>
+                <input type="email" id="emailInput" placeholder="输入邮箱">
             </div>
-            <div class="form-group" id="nicknameGroup" style="display:none">
-                <label>👤 昵称</label>
-                <input type="text" id="nicknameInput" placeholder="给自己取个名字吧" maxlength="20">
+            <div class="form-group" id="nickGroup" style="display:none">
+                <label>昵称</label>
+                <input type="text" id="nickInput" placeholder="取个名字吧">
             </div>
-            <div class="auth-switch" id="authSwitch">
-                新用户？<a onclick="switchAuthMode()">设置昵称</a>
-            </div>
+            <p id="switchText" style="text-align:center;font-size:14px;color:#999;margin-bottom:16px;">
+                新用户？<a href="#" onclick="switchMode()">设置昵称</a>
+            </p>
             <div class="modal-footer">
-                <button class="btn btn-primary" onclick="submitAuth()" id="submitBtn">🚀 进入论坛</button>
-                <button class="btn btn-outline" onclick="closeModal('authModal')" style="color:#666; border-color:#ddd;">取消</button>
+                <button class="btn btn-primary" onclick="submitAuth()" id="authBtn">🚀 进入论坛</button>
+                <button class="btn btn-outline" onclick="closeModal('loginModal')" style="color:#666;border-color:#ddd;">取消</button>
             </div>
         </div>
     </div>
 
-    <!-- 发帖 Modal -->
-    <div class="modal" id="createPostModal">
+    <!-- 发帖弹窗 -->
+    <div class="modal" id="postModal">
         <div class="modal-content">
-            <div class="modal-title">📝 发布新帖子</div>
+            <div class="modal-title">📝 发布帖子</div>
             <div class="form-group">
-                <label>📂 选择版块</label>
-                <select id="postBoardSelect"></select>
+                <label>版块</label>
+                <select id="boardSelect"></select>
             </div>
             <div class="form-group">
-                <label>📌 标题</label>
-                <input type="text" id="postTitleInput" placeholder="给帖子起个标题">
+                <label>标题</label>
+                <input type="text" id="titleInput" placeholder="标题">
             </div>
             <div class="form-group">
-                <label>📄 内容</label>
-                <textarea id="postContentInput" placeholder="写下你想分享的内容..."></textarea>
+                <label>内容</label>
+                <textarea id="contentInput" placeholder="写点什么..."></textarea>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-primary" onclick="createPost()">🚀 发布</button>
-                <button class="btn btn-outline" onclick="closeModal('createPostModal')" style="color:#666; border-color:#ddd;">取消</button>
+                <button class="btn btn-outline" onclick="closeModal('postModal')" style="color:#666;border-color:#ddd;">取消</button>
             </div>
         </div>
     </div>
 
-    <!-- 帖子详情 Modal -->
-    <div class="modal" id="postDetailModal">
+    <!-- 帖子详情弹窗 -->
+    <div class="modal" id="detailModal">
         <div class="modal-content">
-            <div class="modal-title" id="postDetailTitle">📖 帖子详情</div>
-            <div id="postDetailContent"></div>
-            <div class="comments-section">
-                <h4>💬 评论 (<span id="commentCount">0</span>)</h4>
-                <div id="commentsList"><p style="color:#999;text-align:center;padding:20px;">暂无评论</p></div>
-                <div class="comment-input-area">
-                    <textarea id="commentInput" placeholder="写下你的评论..." rows="3"></textarea>
-                    <button class="btn btn-primary btn-sm" onclick="addComment()" style="margin-top:8px;">发表评论</button>
+            <div class="modal-title" id="detailTitle">帖子详情</div>
+            <div id="detailContent"></div>
+            <div style="margin-top:20px;">
+                <h4>💬 评论</h4>
+                <div id="commentList"></div>
+                <div class="comment-input-area" style="margin-top:12px;">
+                    <textarea id="commentInput" rows="2" placeholder="写评论..."></textarea>
+                    <button class="btn btn-primary btn-sm" onclick="addComment()" style="margin-top:8px;">发表</button>
                 </div>
             </div>
-            <div class="modal-footer" style="margin-top:20px;">
-                <button class="btn btn-outline" onclick="closeModal('postDetailModal')" style="flex:1; color:#666; border-color:#ddd;">关闭</button>
+            <div class="modal-footer" style="margin-top:16px;">
+                <button class="btn btn-outline" onclick="closeModal('detailModal')" style="flex:1;color:#666;border-color:#ddd;">关闭</button>
             </div>
         </div>
     </div>
 
     <script>
-        // ★★★ 这里改成你的 Worker 地址 ★★★
-        const API_BASE = 'https://api.kele233.cc.cd';
+        const API = 'https://kele-forum.3903326510.workers.dev';
 
-        let currentUser = null;
-        let currentBoard = 0;
-        let currentPage = 1;
-        let authMode = 'login';
+        let user = null;
+        let boardId = 0;
+        let page = 1;
+        let isReg = false;
+        let currentPostId = null;
 
-        // Toast
-        function showToast(msg, type = 'success') {
-            const c = document.getElementById('toastContainer');
+        function toast(msg, type) {
             const t = document.createElement('div');
-            t.className = `toast ${type}`;
+            t.className = 'toast ' + (type || 'success');
             t.textContent = msg;
-            c.appendChild(t);
-            setTimeout(() => { t.style.opacity = '0'; setTimeout(() => t.remove(), 300); }, 3000);
+            document.getElementById('toastContainer').appendChild(t);
+            setTimeout(() => t.remove(), 3000);
         }
 
-        // Modal
-        function showModal(id) { document.getElementById(id).classList.add('show'); document.body.style.overflow = 'hidden'; }
-        function closeModal(id) { document.getElementById(id).classList.remove('show'); document.body.style.overflow = ''; }
-        document.querySelectorAll('.modal').forEach(m => m.addEventListener('click', function(e) { if (e.target === this) { this.classList.remove('show'); document.body.style.overflow = ''; } }));
+        function showModal(id) { document.getElementById(id).classList.add('show'); }
+        function closeModal(id) { document.getElementById(id).classList.remove('show'); }
 
-        // 登录
-        function showLoginModal() {
-            authMode = 'login';
-            document.getElementById('authModalTitle').textContent = '🥤 登录可乐论坛';
-            document.getElementById('authSwitch').innerHTML = '新用户？<a onclick="switchAuthMode()">设置昵称</a>';
-            document.getElementById('nicknameGroup').style.display = 'none';
+        function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+
+        function timeAgo(dateStr) {
+            const diff = Date.now() - new Date(dateStr).getTime();
+            if (diff < 60000) return '刚刚';
+            if (diff < 3600000) return Math.floor(diff/60000)+'分钟前';
+            if (diff < 86400000) return Math.floor(diff/3600000)+'小时前';
+            return Math.floor(diff/86400000)+'天前';
+        }
+
+        function showLogin() {
+            isReg = false;
+            document.getElementById('loginTitle').textContent = '🥤 登录可乐论坛';
+            document.getElementById('nickGroup').style.display = 'none';
+            document.getElementById('switchText').innerHTML = '新用户？<a href="#" onclick="switchMode()">设置昵称</a>';
+            document.getElementById('authBtn').textContent = '🚀 进入论坛';
             document.getElementById('emailInput').value = '';
-            document.getElementById('nicknameInput').value = '';
-            document.getElementById('submitBtn').textContent = '🚀 进入论坛';
-            showModal('authModal');
+            document.getElementById('nickInput').value = '';
+            showModal('loginModal');
         }
 
-        function switchAuthMode() {
-            const g = document.getElementById('nicknameGroup');
-            if (g.style.display === 'none') {
-                g.style.display = 'block';
-                document.getElementById('authSwitch').innerHTML = '已有账号？<a onclick="switchAuthMode()">直接登录</a>';
-                document.getElementById('submitBtn').textContent = '📝 注册';
-                authMode = 'register';
+        function switchMode() {
+            isReg = !isReg;
+            if (isReg) {
+                document.getElementById('loginTitle').textContent = '📝 注册可乐论坛';
+                document.getElementById('nickGroup').style.display = 'block';
+                document.getElementById('switchText').innerHTML = '已有账号？<a href="#" onclick="switchMode()">直接登录</a>';
+                document.getElementById('authBtn').textContent = '📝 注册';
             } else {
-                g.style.display = 'none';
-                document.getElementById('authSwitch').innerHTML = '新用户？<a onclick="switchAuthMode()">设置昵称</a>';
-                document.getElementById('submitBtn').textContent = '🚀 进入论坛';
-                authMode = 'login';
+                document.getElementById('loginTitle').textContent = '🥤 登录可乐论坛';
+                document.getElementById('nickGroup').style.display = 'none';
+                document.getElementById('switchText').innerHTML = '新用户？<a href="#" onclick="switchMode()">设置昵称</a>';
+                document.getElementById('authBtn').textContent = '🚀 进入论坛';
             }
         }
 
         async function submitAuth() {
             const email = document.getElementById('emailInput').value.trim();
-            const nickname = document.getElementById('nicknameInput').value.trim();
-            const isReg = authMode === 'register';
-
-            if (!email || !email.includes('@')) { showToast('请输入有效邮箱', 'error'); return; }
-            if (isReg && !nickname) { showToast('请输入昵称', 'error'); return; }
-
-            document.getElementById('submitBtn').disabled = true;
-            document.getElementById('submitBtn').textContent = '处理中...';
-
+            const nick = document.getElementById('nickInput').value.trim();
+            if (!email || !email.includes('@')) { toast('请输入有效邮箱', 'error'); return; }
+            document.getElementById('authBtn').disabled = true;
+            document.getElementById('authBtn').textContent = '处理中...';
             try {
                 if (isReg) {
-                    const r = await fetch(`${API_BASE}/api/auth/register-simple`, {
-                        method: 'POST', headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ email, nickname }), credentials: 'include'
-                    });
+                    if (!nick) { toast('请输入昵称', 'error'); document.getElementById('authBtn').disabled = false; document.getElementById('authBtn').textContent = '📝 注册'; return; }
+                    const r = await fetch(API+'/api/auth/register-simple', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({email, nickname:nick}), credentials:'include' });
                     const d = await r.json();
-                    if (r.ok) {
-                        showToast('🎉 注册成功！');
-                        closeModal('authModal');
-                        currentUser = d.user;
-                        updateUI();
-                        loadStats();
-                    } else { showToast(d.error || '注册失败', 'error'); }
+                    if (r.ok) { toast('🎉 注册成功！'); closeModal('loginModal'); user = d.user; renderUser(); loadStats(); }
+                    else { toast(d.error||'注册失败','error'); }
                 } else {
-                    const r = await fetch(`${API_BASE}/api/auth/login-simple`, {
-                        method: 'POST', headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ email }), credentials: 'include'
-                    });
+                    const r = await fetch(API+'/api/auth/login-simple', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({email}), credentials:'include' });
                     const d = await r.json();
-                    if (r.ok) {
-                        showToast('🎉 欢迎回来！');
-                        closeModal('authModal');
-                        currentUser = d.user;
-                        updateUI();
-                        loadStats();
-                    } else if (d.error === '用户不存在') {
-                        showToast('新用户请点击"设置昵称"注册', 'info');
-                    } else { showToast(d.error || '登录失败', 'error'); }
+                    if (r.ok) { toast('🎉 欢迎回来！'); closeModal('loginModal'); user = d.user; renderUser(); loadStats(); }
+                    else if (d.error === '用户不存在') { toast('新用户请点"设置昵称"注册','info'); }
+                    else { toast(d.error||'登录失败','error'); }
                 }
-            } catch (e) { showToast('网络错误', 'error'); }
-            document.getElementById('submitBtn').disabled = false;
-            document.getElementById('submitBtn').textContent = isReg ? '📝 注册' : '🚀 进入论坛';
+            } catch(e) { toast('网络错误','error'); }
+            document.getElementById('authBtn').disabled = false;
+            document.getElementById('authBtn').textContent = isReg ? '📝 注册' : '🚀 进入论坛';
         }
 
         async function logout() {
-            await fetch(`${API_BASE}/api/auth/logout`, { method: 'POST', credentials: 'include' });
-            currentUser = null;
-            updateUI();
-            showToast('已退出', 'info');
+            try { await fetch(API+'/api/auth/logout',{method:'POST',credentials:'include'}); } catch(e) {}
+            user = null; renderUser(); toast('已退出','info');
         }
 
         async function fetchUser() {
-            try {
-                const r = await fetch(`${API_BASE}/api/auth/me`, { credentials: 'include' });
-                if (r.ok) { const d = await r.json(); currentUser = d.user; updateUI(); }
-            } catch(e) {}
+            try { const r = await fetch(API+'/api/auth/me',{credentials:'include'}); if (r.ok) { const d = await r.json(); user = d.user; renderUser(); } } catch(e) {}
         }
 
-        function updateUI() {
-            const lb = document.getElementById('loginBtn');
-            const cb = document.getElementById('createPostBtn');
-            const ui = document.getElementById('userInfo');
-            if (currentUser) {
-                lb.style.display = 'none'; cb.style.display = 'inline-block'; ui.style.display = 'flex';
-                document.getElementById('nicknameDisplay').textContent = currentUser.nickname;
-                document.getElementById('avatarDisplay').textContent = currentUser.nickname[0];
-                const rd = document.getElementById('roleDisplay');
-                rd.style.display = currentUser.role === 'admin' ? 'inline-block' : 'none';
-                rd.textContent = '管理员';
+        function renderUser() {
+            const loginBtn = document.getElementById('loginBtn');
+            const postBtn = document.getElementById('postBtn');
+            const userInfo = document.getElementById('userInfo');
+            if (user) {
+                loginBtn.style.display='none'; postBtn.style.display='inline-block'; userInfo.style.display='flex';
+                document.getElementById('nameEl').textContent = user.nickname;
+                document.getElementById('avatarEl').textContent = user.nickname[0];
+                document.getElementById('roleEl').style.display = user.role==='admin' ? 'inline-block' : 'none';
             } else {
-                lb.style.display = 'inline-block'; cb.style.display = 'none'; ui.style.display = 'none';
+                loginBtn.style.display='inline-block'; postBtn.style.display='none'; userInfo.style.display='none';
             }
         }
 
-        // 统计
         async function loadStats() {
-            try {
-                const r = await fetch(`${API_BASE}/api/stats`);
-                if (r.ok) { const d = await r.json();
-                    document.getElementById('totalPosts').textContent = d.posts;
-                    document.getElementById('totalUsers').textContent = d.users;
-                    document.getElementById('totalComments').textContent = d.comments;
-                }
-            } catch(e) {}
+            try { const r = await fetch(API+'/api/stats'); if(r.ok){const d=await r.json();document.getElementById('statPosts').textContent=d.posts;document.getElementById('statUsers').textContent=d.users;document.getElementById('statComments').textContent=d.comments;} } catch(e) {}
         }
 
-        // 版块
         async function loadBoards() {
             try {
-                const r = await fetch(`${API_BASE}/api/boards`);
-                if (r.ok) {
-                    const d = await r.json();
-                    const tc = document.getElementById('boardTabs');
-                    tc.innerHTML = '<button class="board-tab active" onclick="switchBoard(0)" data-board-id="0">📋 全部</button>';
-                    d.boards.forEach(b => {
-                        const t = document.createElement('button');
-                        t.className = 'board-tab';
-                        t.textContent = `📂 ${b.name}`;
-                        t.dataset.boardId = b.id;
-                        t.onclick = () => switchBoard(b.id);
-                        tc.appendChild(t);
-                    });
-                    const s = document.getElementById('postBoardSelect');
-                    s.innerHTML = d.boards.map(b => `<option value="${b.id}">${b.name}</option>`).join('');
+                const r = await fetch(API+'/api/boards');
+                if(r.ok){
+                    const d=await r.json();
+                    let html='<button class="board-tab active" onclick="switchBoard(0)">📋 全部</button>';
+                    window._boards = d.boards;
+                    d.boards.forEach(b => { html+=`<button class="board-tab" onclick="switchBoard(${b.id})">📂 ${esc(b.name)}</button>`; });
+                    document.getElementById('boardTabs').innerHTML = html;
+                    let opts='';
+                    d.boards.forEach(b => { opts+=`<option value="${b.id}">${esc(b.name)}</option>`; });
+                    document.getElementById('boardSelect').innerHTML = opts;
                 }
             } catch(e) {}
         }
 
         function switchBoard(id) {
-            currentBoard = id;
-            currentPage = 1;
-            document.querySelectorAll('.board-tab').forEach(t => t.classList.toggle('active', parseInt(t.dataset.boardId) === id));
+            boardId = id; page = 1;
+            document.querySelectorAll('.board-tab').forEach((t,i) => {
+                t.classList.toggle('active', (i===0 && id===0) || (i>0 && window._boards && window._boards[i-1] && window._boards[i-1].id===id));
+            });
             loadPosts();
         }
 
-        // 帖子列表
         async function loadPosts() {
-            document.getElementById('postList').innerHTML = '<div class="loading">加载中</div>';
+            document.getElementById('postList').innerHTML = '<div class="loading">加载中...</div>';
             try {
-                let url = `${API_BASE}/api/posts?page=${currentPage}`;
-                if (currentBoard > 0) url += `&board_id=${currentBoard}`;
+                let url = API+'/api/posts?page='+page;
+                if(boardId>0) url+='&board_id='+boardId;
                 const r = await fetch(url);
-                if (r.ok) {
+                if(r.ok){
                     const d = await r.json();
-                    renderPosts(d.posts);
+                    if(!d.posts||d.posts.length===0) { document.getElementById('postList').innerHTML='<div class="empty-state"><div class="empty-icon">📭</div><p>暂无帖子</p></div>'; }
+                    else {
+                        document.getElementById('postList').innerHTML = d.posts.map(p=>'<div class="post-card" onclick="showDetail('+p.id+')"><div class="post-title">'+esc(p.title)+'</div><div class="post-meta"><span>👤 '+esc(p.nickname||'匿名')+'</span><span>📂 '+esc(p.board_name||'')+'</span><span>🕐 '+timeAgo(p.created_at)+'</span><span>💬 '+(p.comment_count||0)+'</span></div></div>').join('');
+                    }
                     renderPagination(d.totalPages, d.currentPage);
                 }
-            } catch(e) { document.getElementById('postList').innerHTML = '<div class="empty-state"><div class="empty-icon">😢</div><p>加载失败</p></div>'; }
-        }
-
-        function renderPosts(posts) {
-            if (!posts || posts.length === 0) {
-                document.getElementById('postList').innerHTML = '<div class="empty-state"><div class="empty-icon">📭</div><p>暂无帖子，快来发第一个帖子吧！</p></div>';
-                return;
-            }
-            document.getElementById('postList').innerHTML = posts.map(p => `
-                <div class="post-card" onclick="showDetail(${p.id})">
-                    <div class="post-title">${esc(p.title)}</div>
-                    <div class="post-meta">
-                        <span>👤 ${esc(p.nickname || '匿名')}</span>
-                        <span>📂 ${esc(p.board_name || '未分类')}</span>
-                        <span>🕐 ${timeAgo(p.created_at)}</span>
-                        <span>💬 ${p.comment_count || 0}</span>
-                    </div>
-                </div>
-            `).join('');
+            } catch(e) { document.getElementById('postList').innerHTML='<div class="empty-state"><div class="empty-icon">😢</div><p>加载失败</p></div>'; }
         }
 
         function renderPagination(total, current) {
             const c = document.getElementById('pagination');
-            if (total <= 1) { c.innerHTML = ''; return; }
-            let h = `<button class="page-btn" onclick="goPage(${current-1})" ${current<=1?'disabled':''}>上一页</button>`;
-            for (let i = 1; i <= total; i++) {
-                if (i === current) h += `<button class="page-btn active">${i}</button>`;
-                else if (i === 1 || i === total || Math.abs(i-current) <= 2) h += `<button class="page-btn" onclick="goPage(${i})">${i}</button>`;
-                else if (!h.endsWith('...')) h += `<button class="page-btn" disabled>...</button>`;
+            if(total<=1){c.innerHTML='';return;}
+            let h='<button class="page-btn" onclick="goPage('+(current-1)+')"'+(current<=1?'disabled':'')+'>上一页</button>';
+            for(let i=1;i<=total;i++){
+                if(i===current) h+='<button class="page-btn active">'+i+'</button>';
+                else if(i===1||i===total||Math.abs(i-current)<=2) h+='<button class="page-btn" onclick="goPage('+i+')">'+i+'</button>';
+                else if(!h.endsWith('...')) h+='<button class="page-btn" disabled>...</button>';
             }
-            h += `<button class="page-btn" onclick="goPage(${current+1})" ${current>=total?'disabled':''}>下一页</button>`;
-            c.innerHTML = h;
+            h+='<button class="page-btn" onclick="goPage('+(current+1)+')"'+(current>=total?'disabled':'')+'>下一页</button>';
+            c.innerHTML=h;
         }
 
-        function goPage(p) { currentPage = p; loadPosts(); }
+        function goPage(p){page=p;loadPosts();}
 
-        // 帖子详情
         async function showDetail(id) {
             try {
-                const r = await fetch(`${API_BASE}/api/posts/${id}`, { credentials: 'include' });
-                if (r.ok) {
-                    const d = await r.json();
-                    const p = d.post;
-                    document.getElementById('postDetailTitle').textContent = `📖 ${p.title}`;
-                    let delBtn = '';
-                    if (currentUser && (currentUser.role === 'admin' || currentUser.id === p.author_id)) {
-                        delBtn = `<button class="btn btn-danger btn-sm" onclick="deletePost(${p.id})">🗑️ 删除</button>`;
-                    }
-                    document.getElementById('postDetailContent').innerHTML = `
-                        <div class="post-detail-meta" style="color:#999;font-size:13px;display:flex;gap:16px;margin-bottom:8px;">
-                            <span>👤 ${esc(p.nickname)}</span>
-                            <span>📂 ${esc(p.board_name)}</span>
-                            <span>🕐 ${timeAgo(p.created_at)}</span>
-                            ${delBtn}
-                        </div>
-                        <div class="post-detail-body">${esc(p.content)}</div>
-                    `;
-                    document.getElementById('postDetailModal').dataset.postId = p.id;
+                const r=await fetch(API+'/api/posts/'+id,{credentials:'include'});
+                if(r.ok){
+                    const d=await r.json(); const p=d.post; currentPostId=p.id;
+                    document.getElementById('detailTitle').textContent='📖 '+p.title;
+                    let delBtn='';
+                    if(user&&(user.role==='admin'||user.id===p.author_id)) delBtn='<button class="btn btn-danger btn-sm" onclick="deletePost('+p.id+')">删除</button>';
+                    document.getElementById('detailContent').innerHTML='<div style="color:#999;font-size:13px;margin-bottom:8px;">👤 '+esc(p.nickname)+' | 📂 '+esc(p.board_name)+' | 🕐 '+timeAgo(p.created_at)+' '+delBtn+'</div><div class="post-detail-body">'+esc(p.content)+'</div>';
+                    document.getElementById('commentInput').value='';
                     loadComments(p.id);
-                    showModal('postDetailModal');
+                    showModal('detailModal');
                 }
-            } catch(e) { showToast('加载失败', 'error'); }
+            } catch(e){toast('加载失败','error');}
         }
 
-        // 评论
         async function loadComments(postId) {
             try {
-                const r = await fetch(`${API_BASE}/api/posts/${postId}/comments`, { credentials: 'include' });
-                if (r.ok) {
-                    const d = await r.json();
-                    const cc = document.getElementById('commentCount');
-                    cc.textContent = d.comments.length;
-                    if (d.comments.length === 0) {
-                        document.getElementById('commentsList').innerHTML = '<p style="color:#999;text-align:center;padding:20px;">暂无评论，来说点什么吧</p>';
-                        return;
-                    }
-                    document.getElementById('commentsList').innerHTML = d.comments.map(c => {
-                        let del = '';
-                        if (currentUser && (currentUser.role === 'admin' || currentUser.id === c.author_id)) {
-                            del = `<button class="btn btn-danger btn-sm" onclick="deleteComment(${c.id})" style="margin-top:4px;">删除</button>`;
-                        }
-                        return `
-                            <div class="comment-item">
-                                <div class="comment-header">
-                                    <span class="comment-author">👤 ${esc(c.nickname)}</span>
-                                    <span class="comment-time">${timeAgo(c.created_at)}</span>
-                                </div>
-                                <div class="comment-content">${esc(c.content)}</div>
-                                ${del}
-                            </div>
-                        `;
+                const r=await fetch(API+'/api/posts/'+postId+'/comments',{credentials:'include'});
+                if(r.ok){
+                    const d=await r.json();
+                    if(d.comments.length===0){document.getElementById('commentList').innerHTML='<p style="color:#999;text-align:center;padding:20px;">暂无评论</p>';return;}
+                    document.getElementById('commentList').innerHTML=d.comments.map(c=>{
+                        let del='';
+                        if(user&&(user.role==='admin'||user.id===c.author_id)) del='<button class="btn btn-danger btn-sm" onclick="deleteComment('+c.id+')" style="margin-left:8px;">删除</button>';
+                        return '<div class="comment-item"><div class="comment-header"><span class="comment-author">👤 '+esc(c.nickname)+'</span><span class="comment-time">'+timeAgo(c.created_at)+del+'</span></div><div class="comment-content">'+esc(c.content)+'</div></div>';
                     }).join('');
                 }
-            } catch(e) {}
+            } catch(e){}
         }
 
         async function addComment() {
-            if (!currentUser) { showToast('请先登录', 'error'); return; }
-            const postId = document.getElementById('postDetailModal').dataset.postId;
-            const content = document.getElementById('commentInput').value.trim();
-            if (!content) { showToast('请输入评论内容', 'error'); return; }
+            if(!user){toast('请先登录','error');return;}
+            const content=document.getElementById('commentInput').value.trim();
+            if(!content){toast('请输入评论内容','error');return;}
             try {
-                const r = await fetch(`${API_BASE}/api/comments`, {
-                    method: 'POST', headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ post_id: parseInt(postId), content }), credentials: 'include'
-                });
-                if (r.ok) {
-                    showToast('评论成功');
-                    document.getElementById('commentInput').value = '';
-                    loadComments(postId);
-                } else { const d = await r.json(); showToast(d.error || '评论失败', 'error'); }
-            } catch(e) { showToast('网络错误', 'error'); }
+                const r=await fetch(API+'/api/comments',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({post_id:currentPostId,content}),credentials:'include'});
+                if(r.ok){toast('评论成功');document.getElementById('commentInput').value='';loadComments(currentPostId);}
+                else{const d=await r.json();toast(d.error||'评论失败','error');}
+            } catch(e){toast('网络错误','error');}
+        }
+
+        function showCreatePost() {
+            if(!user){toast('请先登录','error');return;}
+            document.getElementById('titleInput').value='';document.getElementById('contentInput').value='';
+            showModal('postModal');
+        }
+
+        async function createPost() {
+            if(!user){toast('请先登录','error');return;}
+            const title=document.getElementById('titleInput').value.trim();
+            const content=document.getElementById('contentInput').value.trim();
+            const board=parseInt(document.getElementById('boardSelect').value);
+            if(!title){toast('请输入标题','error');return;}
+            if(!content||content.length<10){toast('内容至少10个字','error');return;}
+            try {
+                const r=await fetch(API+'/api/posts',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({title,content,board_id:board}),credentials:'include'});
+                if(r.ok){toast('发帖成功！');closeModal('postModal');loadPosts();}
+                else{const d=await r.json();toast(d.error||'发帖失败','error');}
+            } catch(e){toast('网络错误','error');}
         }
 
         async function deletePost(id) {
-            if (!confirm('确定删除此帖子？')) return;
+            if(!confirm('确定删除？'))return;
             try {
-                const r = await fetch(`${API_BASE}/api/posts/${id}`, { method: 'DELETE', credentials: 'include' });
-                if (r.ok) { showToast
+                const r=await fetch(API+'/api/posts/'+id,{method:'DELETE',credentials:'include'});
+                if(r.ok){toast('删除成功');closeModal('detailModal');loadPosts();}
+                else{const d=await r.json();toast(d.error||'删除失败','error');}
+            } catch(e){toast('网络错误','error');}
+        }
+
+        async function deleteComment(id) {
+            if(!confirm('确定删除？'))return;
+            try {
+                const r=await fetch(API+'/api/comments/'+id,{method:'DELETE',credentials:'include'});
+                if(r.ok){toast('删除成功');loadComments(currentPostId);}
+                else{const d=await r.json();toast(d.error||'删除失败','error');}
+            } catch(e){toast('网络错误','error');}
+        }
+
+        async function init() {
+            await fetchUser();
+            await loadBoards();
+            await loadPosts();
+            await loadStats();
+        }
+
+        init();
+    </script>
+</body>
+</html>
