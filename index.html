@@ -129,7 +129,6 @@
 
     <div id="toastContainer" class="toast-container"></div>
 
-    <!-- 登录弹窗 -->
     <div class="modal" id="loginModal">
         <div class="modal-content">
             <div class="modal-title" id="loginTitle">🥤 登录可乐论坛</div>
@@ -151,7 +150,6 @@
         </div>
     </div>
 
-    <!-- 发帖弹窗 -->
     <div class="modal" id="postModal">
         <div class="modal-content">
             <div class="modal-title">📝 发布帖子</div>
@@ -170,7 +168,6 @@
         </div>
     </div>
 
-    <!-- 帖子详情弹窗 -->
     <div class="modal" id="detailModal">
         <div class="modal-content">
             <div class="modal-title" id="detailTitle">帖子详情</div>
@@ -190,7 +187,6 @@
         </div>
     </div>
 
-    <!-- 个人资料弹窗 -->
     <div class="modal" id="profileModal">
         <div class="modal-content">
             <div class="modal-title">👤 个人资料</div>
@@ -216,7 +212,6 @@
         </div>
     </div>
 
-    <!-- 收藏弹窗 -->
     <div class="modal" id="favoritesModal">
         <div class="modal-content">
             <div class="modal-title">⭐ 我的收藏</div>
@@ -227,7 +222,6 @@
         </div>
     </div>
 
-    <!-- 管理后台弹窗 -->
     <div class="modal" id="adminModal">
         <div class="modal-content" style="max-width:700px;">
             <div class="modal-title">⚙️ 管理后台</div>
@@ -252,9 +246,7 @@
     </div>
 
     <script>
-        // ===== 配置 =====
         const API = 'https://api.kele233.cc.cd';
-
         let user = null;
         let page = 1;
         let isReg = false;
@@ -271,7 +263,6 @@
 
         function showModal(id) { document.getElementById(id).classList.add('show'); }
         function closeModal(id) { document.getElementById(id).classList.remove('show'); }
-
         function esc(s) { const d = document.createElement('div'); d.textContent = s||''; return d.innerHTML; }
 
         function timeAgo(ts) {
@@ -284,14 +275,9 @@
             return Math.floor(diff/86400000)+'天前';
         }
 
-        function toggleMenu() {
-            document.getElementById('userDropdown').classList.toggle('show');
-        }
-
+        function toggleMenu() { document.getElementById('userDropdown').classList.toggle('show'); }
         document.addEventListener('click', function(e) {
-            if (!e.target.closest('.user-menu')) {
-                document.getElementById('userDropdown').classList.remove('show');
-            }
+            if (!e.target.closest('.user-menu')) document.getElementById('userDropdown').classList.remove('show');
         });
 
         async function api(path, options = {}) {
@@ -303,24 +289,9 @@
             return data;
         }
 
-        function showSearch() {
-            document.getElementById('searchBar').style.display = 'flex';
-            document.getElementById('searchInput').focus();
-        }
-
-        function doSearch() {
-            searchQuery = document.getElementById('searchInput').value.trim();
-            page = 1;
-            loadPosts();
-        }
-
-        function cancelSearch() {
-            searchQuery = '';
-            document.getElementById('searchInput').value = '';
-            document.getElementById('searchBar').style.display = 'none';
-            page = 1;
-            loadPosts();
-        }
+        function showSearch() { document.getElementById('searchBar').style.display = 'flex'; document.getElementById('searchInput').focus(); }
+        function doSearch() { searchQuery = document.getElementById('searchInput').value.trim(); page = 1; loadPosts(); }
+        function cancelSearch() { searchQuery = ''; document.getElementById('searchInput').value = ''; document.getElementById('searchBar').style.display = 'none'; page = 1; loadPosts(); }
 
         function showLogin() {
             isReg = false;
@@ -343,7 +314,7 @@
             } else {
                 document.getElementById('loginTitle').textContent = '🥤 登录可乐论坛';
                 document.getElementById('regNickGroup').style.display = 'none';
-                document.getElementById('switchText').innerHTML = '没有账号？<a href="#" onclick="switchAuthMode()">去注册</a>';
+                document.getElementById('switchText').innerHTML = '没有账号？<a href="#" onclick="switchAuthMode()">去登录</a>';
                 document.getElementById('authBtn').textContent = '🚀 登录';
             }
         }
@@ -368,23 +339,15 @@
                 renderUser();
                 closeModal('loginModal');
                 loadPosts();
-            } catch (e) {
-                toast(e.message || '操作失败', 'error');
-            }
+            } catch (e) { toast(e.message || '操作失败', 'error'); }
             document.getElementById('authBtn').disabled = false;
             document.getElementById('authBtn').textContent = isReg ? '📝 注册' : '🚀 登录';
         }
 
         async function logout() {
             try { await api('/api/auth/logout', { method: 'POST' }); } catch(e) {}
-            user = null;
-            renderUser();
-            closeModal('profileModal');
-            closeModal('favoritesModal');
-            closeModal('adminModal');
-            toast('已退出');
-            document.getElementById('userDropdown').classList.remove('show');
-            loadPosts();
+            user = null; renderUser(); closeModal('profileModal'); closeModal('favoritesModal'); closeModal('adminModal');
+            toast('已退出'); document.getElementById('userDropdown').classList.remove('show'); loadPosts();
         }
 
         function renderUser() {
@@ -398,13 +361,13 @@
                 userInfo.style.display = 'flex';
                 document.getElementById('nameEl').textContent = user.nickname || user.username;
                 if (user.avatar) {
-                    document.getElementById('avatarEl').src = user.avatar.startsWith('data:') ? user.avatar : `data:image/jpeg;base64,${user.avatar}`;
+                    document.getElementById('avatarEl').src = user.avatar;
                     document.getElementById('avatarEl').style.display = 'block';
                     document.getElementById('avatarLetter').style.display = 'none';
                 } else {
                     document.getElementById('avatarEl').style.display = 'none';
                     document.getElementById('avatarLetter').style.display = 'flex';
-                    document.getElementById('avatarLetter').textContent = (user.nickname||user.username||'?')[0];
+                    document.getElementById('avatarLetter').textContent = (user.nickname||'?')[0];
                 }
                 adminBtn.style.display = user.role === 'admin' ? 'block' : 'none';
             } else {
@@ -417,18 +380,15 @@
         async function fetchUser() {
             try {
                 const data = await api('/api/auth/me');
-                if (data.user) {
-                    user = data.user;
-                    renderUser();
-                }
-            } catch(e) {}
+                if (data.user) { user = data.user; renderUser(); }
+            } catch(e) { console.log('未登录'); }
         }
 
         async function loadPosts() {
             document.getElementById('postList').innerHTML = '<div class="loading">加载中...</div>';
             try {
-                let url = '/api/posts?page=' + page + '&limit=20';
-                if (searchQuery) url += '&q=' + encodeURIComponent(searchQuery);
+                let url = '/api/posts?page=' + page;
+                if (searchQuery) url = '/api/search?q=' + encodeURIComponent(searchQuery) + '&page=' + page;
                 const data = await api(url);
                 if (!data.posts || data.posts.length === 0) {
                     document.getElementById('postList').innerHTML = '<div class="empty-state"><div class="empty-icon">📭</div><p>暂无帖子</p></div>';
@@ -439,15 +399,11 @@
                             <div class="post-meta">
                                 <span>👤 ${esc(p.nickname || '匿名')}</span>
                                 <span>🕐 ${timeAgo(p.created_at)}</span>
-                                <span>👍 ${p.likes || 0}</span>
-                                <span>👎 ${p.dislikes || 0}</span>
-                                <span>⭐ ${p.favorites || 0}</span>
                             </div>
                         </div>
                     `).join('');
                 }
-                const totalPages = data.totalPages || 1;
-                renderPagination(totalPages, page);
+                renderPagination(data.totalPages || 1, page);
             } catch (e) {
                 document.getElementById('postList').innerHTML = '<div class="empty-state"><div class="empty-icon">😢</div><p>加载失败: ' + esc(e.message) + '</p></div>';
             }
@@ -456,110 +412,59 @@
         function renderPagination(total, current) {
             const c = document.getElementById('pagination');
             if (total <= 1) { c.innerHTML = ''; return; }
-            let h = '<button class="page-btn" onclick="goPage(' + (current - 1) + ')"' + (current <= 1 ? 'disabled' : '') + '>上一页</button>';
+            let h = '<button class="page-btn" onclick="goPage('+(current-1)+')"'+(current<=1?'disabled':'')+'>上一页</button>';
             for (let i = 1; i <= total; i++) {
-                if (i === current) h += '<button class="page-btn active">' + i + '</button>';
-                else if (i === 1 || i === total || Math.abs(i - current) <= 2) h += '<button class="page-btn" onclick="goPage(' + i + ')">' + i + '</button>';
+                if (i === current) h += '<button class="page-btn active">'+i+'</button>';
+                else if (i===1||i===total||Math.abs(i-current)<=2) h += '<button class="page-btn" onclick="goPage('+i+')">'+i+'</button>';
                 else if (!h.endsWith('...')) h += '<button class="page-btn" disabled>...</button>';
             }
-            h += '<button class="page-btn" onclick="goPage(' + (current + 1) + ')"' + (current >= total ? 'disabled' : '') + '>下一页</button>';
+            h += '<button class="page-btn" onclick="goPage('+(current+1)+')"'+(current>=total?'disabled':'')+'>下一页</button>';
             c.innerHTML = h;
         }
 
         function goPage(p) { page = p; loadPosts(); }
 
-        function showCreatePost() {
-            if (!user) { toast('请先登录', 'error'); return; }
-            document.getElementById('titleInput').value = '';
-            document.getElementById('contentInput').value = '';
-            showModal('postModal');
-        }
+        function showCreatePost() { if (!user) { toast('请先登录', 'error'); return; } document.getElementById('titleInput').value = ''; document.getElementById('contentInput').value = ''; showModal('postModal'); }
 
         async function createPost() {
             const title = document.getElementById('titleInput').value.trim();
             const content = document.getElementById('contentInput').value.trim();
             if (!title || !content) { toast('请填写完整', 'error'); return; }
-            try {
-                await api('/api/posts', { method: 'POST', body: JSON.stringify({ title, content }) });
-                toast('发帖成功！');
-                closeModal('postModal');
-                page = 1;
-                loadPosts();
-            } catch (e) { toast(e.message, 'error'); }
+            try { await api('/api/posts', { method: 'POST', body: JSON.stringify({ title, content }) }); toast('发帖成功！'); closeModal('postModal'); page = 1; loadPosts(); } catch (e) { toast(e.message, 'error'); }
         }
 
         async function showDetail(id) {
             try {
                 const data = await api('/api/posts/' + id);
-                const p = data.post;
-                currentPostId = p.id;
+                const p = data.post; currentPostId = p.id;
                 document.getElementById('detailTitle').textContent = '📖 ' + p.title;
                 let delBtn = '';
-                if (user && (user.role === 'admin' || user.id === p.author_id)) {
-                    delBtn = `<button class="btn btn-danger btn-sm" onclick="deletePost(${p.id})" style="margin-left:8px;">🗑️ 删除</button>`;
-                }
+                if (user && (user.role === 'admin' || user.id === p.author_id)) delBtn = `<button class="btn btn-danger btn-sm" onclick="deletePost(${p.id})" style="margin-left:8px;">🗑️ 删除</button>`;
                 document.getElementById('detailContent').innerHTML = `
-                    <div style="color:#999;font-size:13px;margin-bottom:8px;">
-                        👤 ${esc(p.nickname)} | 🕐 ${timeAgo(p.created_at)} ${delBtn}
-                    </div>
-                    <div class="post-detail-body">${esc(p.content)}</div>
-                `;
-                let actionsHtml = `
-                    <button onclick="handleLike(${p.id},'like')">👍 <span id="likeCount">${p.likes || 0}</span></button>
-                    <button onclick="handleLike(${p.id},'dislike')">👎 <span id="dislikeCount">${p.dislikes || 0}</span></button>
-                `;
-                if (user) {
-                    actionsHtml += `<button onclick="handleFavorite(${p.id})">⭐ 收藏</button>`;
-                }
-                document.getElementById('postActions').innerHTML = actionsHtml;
+                    <div style="color:#999;font-size:13px;margin-bottom:8px;">👤 ${esc(p.nickname)} | 🕐 ${timeAgo(p.created_at)} ${delBtn}</div>
+                    <div class="post-detail-body">${esc(p.content)}</div>`;
+                document.getElementById('postActions').innerHTML = `
+                    <button onclick="handleLike(${p.id},'like')">👍 <span id="likeCount">${p.likes||0}</span></button>
+                    <button onclick="handleLike(${p.id},'dislike')">👎 <span id="dislikeCount">${p.dislikes||0}</span></button>
+                    ${user ? '<button onclick="handleFavorite('+p.id+')">⭐ 收藏</button>' : ''}`;
                 document.getElementById('commentInput').value = '';
                 loadComments(p.id);
                 showModal('detailModal');
-            } catch (e) { toast('加载失败: ' + e.message, 'error'); }
+            } catch(e) { toast('加载失败: '+e.message, 'error'); }
         }
 
-        async function deletePost(id) {
-            if (!confirm('确定删除吗？')) return;
-            try {
-                await api('/api/admin/posts/' + id, { method: 'DELETE' });
-                toast('已删除');
-                closeModal('detailModal');
-                loadPosts();
-            } catch (e) { toast(e.message, 'error'); }
-        }
-
+        async function deletePost(id) { if (!confirm('确定删除吗？')) return; try { await api('/api/admin/posts/'+id, {method:'DELETE'}); toast('已删除'); closeModal('detailModal'); loadPosts(); } catch(e) { toast(e.message,'error'); } }
         async function loadComments(postId) {
-            try {
-                const data = await api('/api/posts/' + postId + '/comments');
-                document.getElementById('commentCount').textContent = (data.comments||[]).length;
-                if (!data.comments || data.comments.length === 0) {
-                    document.getElementById('commentList').innerHTML = '<div style="text-align:center;padding:12px;color:#999;font-size:13px;">暂无评论</div>';
-                } else {
-                    document.getElementById('commentList').innerHTML = data.comments.map(c => `
-                        <div class="comment-item">
-                            <div class="comment-header">
-                                <span class="comment-author">👤 ${esc(c.nickname)}</span>
-                                <span class="comment-time">${timeAgo(c.created_at)}</span>
-                            </div>
-                            <div style="font-size:14px;">${esc(c.content)}</div>
-                        </div>
-                    `).join('');
-                }
-            } catch (e) {}
+            try { const data = await api('/api/posts/'+postId+'/comments'); document.getElementById('commentCount').textContent = (data.comments||[]).length;
+                if (!data.comments||data.comments.length===0) document.getElementById('commentList').innerHTML = '<div style="text-align:center;padding:12px;color:#999;font-size:13px;">暂无评论</div>';
+                else document.getElementById('commentList').innerHTML = data.comments.map(c => `<div class="comment-item"><div class="comment-header"><span class="comment-author">👤 ${esc(c.nickname)}</span><span class="comment-time">${timeAgo(c.created_at)}</span></div><div style="font-size:14px;">${esc(c.content)}</div></div>`).join('');
+            } catch(e) {}
         }
-
-        async function addComment() {
-            if (!user) { toast('请先登录', 'error'); return; }
-            const content = document.getElementById('commentInput').value.trim();
-            if (!content) { toast('请填写评论', 'error'); return; }
-            try {
-                await api('/api/comments', { method: 'POST', body: JSON.stringify({ post_id: currentPostId, content }) });
-                toast('评论成功');
-                document.getElementById('commentInput').value = '';
-                loadComments(currentPostId);
-            } catch (e) { toast(e.message, 'error'); }
-        }
-
-        async function handleLike(postId, type) {
-            if (!user) { toast('请先登录', 'error'); return; }
-            try {
+        async function addComment() { if (!user) { toast('请先登录','error'); return; } const content = document.getElementById('commentInput').value.trim(); if (!content) { toast('请填写评论','error'); return; } try { await api('/api/comments', {method:'POST',body:JSON.stringify({post_id:currentPostId,content})}); toast('评论成功'); document.getElementById('commentInput').value = ''; loadComments(currentPostId); } catch(e) { toast(e.message,'error'); } }
+        async function handleLike(postId, type) { if (!user) { toast('请先登录','error'); return; } try { const d = await api('/api/posts/'+postId+'/'+type, {method:'POST'}); toast('操作成功'); } catch(e) { toast(e.message,'error'); } }
+        async function handleFavorite(postId) { if (!user) { toast('请先登录','error'); return; } try { const d = await api('/api/posts/'+postId+'/favorite', {method:'POST'}); toast(d.message); } catch(e) { toast(e.message,'error'); } }
+        async function handleAvatarUpload(event) { const file = event.target.files[0]; if (!file) return; if (file.size > 500*1024) { toast('图片不能超过500KB','error'); return; } const reader = new FileReader(); reader.onload = async function(e) { try { const d = await api('/api/avatar', {method:'POST',body:JSON.stringify({avatar: e.target.result})}); toast('上传成功'); user.avatar = e.target.result; renderUser(); } catch(e) { toast(e.message,'error'); } }; reader.readAsDataURL(file); }
+        function showProfile() { if (!user) return; document.getElementById('profileNickInput').value = user.nickname; document.getElementById('profileEmail').value = user.email||''; if (user.avatar) { document.getElementById('profileAvatar').src = user.avatar; document.getElementById('profileAvatar').style.display = 'block'; document.getElementById('profileAvatarLetter').style.display = 'none'; } else { document.getElementById('profileAvatar').style.display = 'none'; document.getElementById('profileAvatarLetter').style.display = 'flex'; document.getElementById('profileAvatarLetter').textContent = (user.nickname||'?')[0]; } closeModal('detailModal'); showModal('profileModal'); document.getElementById('userDropdown').classList.remove('show'); }
+        async function updateProfile() { const nickname = document.getElementById('profileNickInput').value.trim(); if (!nickname) { toast('昵称不能为空','error'); return; } try { await api('/api/profile', {method:'PUT',body:JSON.stringify({nickname})}); toast('保存成功'); user.nickname = nickname; renderUser(); } catch(e) { toast(e.message,'error'); } }
+        function showFavorites() { if (!user) { toast('请先登录','error'); return; } document.getElementById('favoritesList').innerHTML = '<div class="loading">加载中...</div>'; showModal('favoritesModal'); loadFavorites(); }
+        async function loadFavorites() { try { const
