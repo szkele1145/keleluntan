@@ -110,7 +110,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 <div class="hero-stat-divider"></div>
 <div class="hero-stat"><span class="hero-stat-label">📝 帖子</span><span class="hero-stat-divider"></span><span class="hero-stat-num" id="statPosts">0</span></div>
 </div>
-<div class="hero-feedback"><button class="btn" onclick="showFeedback()">💬 反馈建议</button></div>
+<div class="hero-feedback"><button class="btn" onclick="var m=prompt('请描述您的问题或建议：');if(m){fetch('https://api.kele233.cc.cd/api/feedback',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({content:m})}).then(r=>r.json()).then(d=>alert(d.message)).catch(()=>alert('提交失败'))}">💬 反馈建议</button>
 </div>
 
 <div class="search-bar" id="searchBar" style="display:none">
