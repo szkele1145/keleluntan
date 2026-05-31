@@ -592,4 +592,279 @@
                     body:JSON.stringify({post_id:currentPostId,content}), credentials:'include'
                 });
                 if (r.ok) { toast('评论成功'); document.getElementById('commentInput').value = ''; loadComments(currentPostId); }
-                else { const d = await r.json();
+                                else { const d = await r.json(); toast(d.error||'评论失败','error'); }
+            } catch(e) { toast('网络错误','error'); }
+        }
+
+        // ===== 删除帖子 =====
+        async function deletePost(id) {
+            if (!confirm('确定删除这个帖子吗？')) return;
+            try {
+                const r = await fetch(API+'/api/admin/posts/'+id, { method:'DELETE', credentials:'include' });
+                if (r.ok) { toast('帖子已删除'); closeModal('detailModal'); loadPosts(); }
+                else { const d = await r.json(); toast(d.error||'删除失败','error'); }
+            } catch(e) { toast('网络错误','error'); }
+        }
+
+        // ===== 删除评论 =====
+        async function deleteComment(id) {
+            if (!confirm('确定删除此评论吗？')) return;
+            try {
+                const r = await fetch(API+'/api/admin/comments/'+id, { method:'DELETE', credentials:'include' });
+                if (r.ok) { toast('评论已删除'); loadComments(currentPostId); }
+                else { const d = await r.json(); toast(d.error||'删除失败','error'); }
+            } catch(e) { toast('网络错误','error'); }
+        }
+
+        // ===== 创建帖子 =====
+        function showCreatePost() {
+            if (!user) { toast('请先登录','error'); return; }
+            document.getElementById('titleInput').value = '';
+            document.getElementById('contentInput').value = '';
+            showModal('postModal');
+        }
+
+        async function createPost() {
+            const title = document.getElementById('titleInput').value.trim();
+            const content = document.getElementById('contentInput').value.trim();
+            if (!title || !content) { toast('请填写完整','error'); return; }
+            try {
+                const r = await fetch(API+'/api/posts', {
+                    method:'POST', headers:{'Content-Type':'application/json'},
+                    body:JSON.stringify({title,content}), credentials:'include'
+                });
+                if (r.ok) { toast('发帖成功！'); closeModal('postModal'); page = 1; loadPosts(); }
+                else { const d = await r.json(); toast(d.error||'发帖失败','error'); }
+            } catch(e) { toast('网络错误','error'); }
+        }
+
+        // ===== 个人资料 =====
+        function showProfile() {
+            if (!user) return;
+            document.getElementById('profileNickInput').value = user.nickname;
+            document.getElementById('profileEmail').value = user.email || '';
+            if (user.avatar) {
+                document.getElementById('profileAvatar').src = user.avatar.startsWith('data:') ? user.avatar : `data:image/jpeg;base64,${user.avatar}`;
+                document.getElementById('profileAvatar').style.display = 'block';
+                document.getElementById('profileAvatarLetter').style.display = 'none';
+            } else {
+                document.getElementById('profileAvatar').style.display = 'none';
+                document.getElementById('profileAvatarLetter').style.display = 'flex';
+                document.getElementById('profileAvatarLetter').textContent = user.nickname[0];
+            }
+            closeModal('detailModal');
+            showModal('profileModal');
+            document.getElementById('userDropdown').classList.remove('show');
+        }
+
+        async function updateProfile() {
+            const nickname = document.getElementById('profileNickInput').value.trim();
+            if (!nickname) { toast('昵称不能为空','error'); return; }
+            try {
+                const r = await fetch(API+'/api/profile', {
+                    method:'PUT', headers:{'Content-Type':'application/json'},
+                    body:JSON.stringify({nickname}), credentials:'include'
+                });
+                if (r.ok) { toast('保存成功'); user.nickname = nickname; renderUser(); }
+                else { const d = await r.json(); toast(d.error||'保存失败','error'); }
+            } catch(e) { toast('网络错误','error'); }
+        }
+
+        // ===== 头像上传 =====
+        function uploadAvatar() {
+            document.getElementById('avatarInput').click();
+        }
+
+        async function handleAvatarUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            if (file.size > 500 * 1024) { toast('图片不能超过500KB','error'); return; }
+            
+            const reader = new FileReader();
+            reader.onload = async function(e) {
+                const base64 = e.target.result;
+                try {
+                    const r = await fetch(API+'/api/avatar', {
+                        method:'POST', headers:{'Content-Type':'application/json'},
+                        body:JSON.stringify({avatar: base64}), credentials:'include'
+                    });
+                    if (r.ok) {
+                        toast('头像上传成功');
+                        user.avatar = base64;
+                        renderUser();
+                        document.getElementById('profileAvatar').src = base64;
+                        document.getElementById('profileAvatar').style.display = 'block';
+                        document.getElementById('profileAvatarLetter').style.display = 'none';
+                    } else {
+                        const d = await r.json();
+                        toast(d.error||'上传失败','error');
+                    }
+                } catch(e) { toast('网络错误','error'); }
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // ===== 我的收藏 =====
+        function showFavorites() {
+            if (!user) { toast('请先登录','error'); return; }
+            document.getElementById('favoritesList').innerHTML = '<div class="loading">加载中...</div>';
+            showModal('favoritesModal');
+            loadFavorites();
+        }
+
+        async function loadFavorites() {
+            try {
+                const r = await fetch(API+'/api/favorites', { credentials:'include' });
+                if (r.ok) {
+                    const d = await r.json();
+                    if (!d.posts || d.posts.length === 0) {
+                        document.getElementById('favoritesList').innerHTML = '<div class="empty-state"><div class="empty-icon">⭐</div><p>还没有收藏</p></div>';
+                    } else {
+                        document.getElementById('favoritesList').innerHTML = d.posts.map(p => `
+                            <div class="post-card" onclick="showDetail(${p.id})">
+                                <div class="post-title">${esc(p.title)}</div>
+                                <div class="post-meta">
+                                    <span>👤 ${esc(p.nickname||'匿名')}</span>
+                                    <span>🕐 ${timeAgo(p.created_at)}</span>
+                                    <span>👍 ${p.likes||0}</span>
+                                </div>
+                            </div>
+                        `).join('');
+                    }
+                }
+            } catch(e) {
+                document.getElementById('favoritesList').innerHTML = '<div class="empty-state"><div class="empty-icon">😢</div><p>加载失败</p></div>';
+            }
+        }
+
+        // ===== 管理后台 =====
+        function showAdmin() {
+            document.getElementById('adminLoginForm').style.display = 'block';
+            document.getElementById('adminPanel').style.display = 'none';
+            document.getElementById('adminPwdInput').value = '';
+            document.getElementById('userDropdown').classList.remove('show');
+            showModal('adminModal');
+        }
+
+        async function adminLogin() {
+            const pwd = document.getElementById('adminPwdInput').value.trim();
+            if (!pwd) { toast('请输入密码','error'); return; }
+            try {
+                const r = await fetch(API+'/api/admin/verify', {
+                    method:'POST', headers:{'Content-Type':'application/json'},
+                    body:JSON.stringify({password: pwd}), credentials:'include'
+                });
+                if (r.ok) {
+                    toast('验证成功');
+                    document.getElementById('adminLoginForm').style.display = 'none';
+                    document.getElementById('adminPanel').style.display = 'block';
+                    switchAdminTab('users');
+                } else {
+                    const d = await r.json();
+                    toast(d.error||'密码错误','error');
+                }
+            } catch(e) { toast('网络错误','error'); }
+        }
+
+        async function switchAdminTab(tab, el) {
+            if (el) {
+                document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+                el.classList.add('active');
+            }
+            const content = document.getElementById('adminContent');
+            
+            if (tab === 'users') {
+                content.innerHTML = '<div class="loading">加载用户...</div>';
+                try {
+                    const r = await fetch(API+'/api/admin/users', { credentials:'include' });
+                    if (r.ok) {
+                        const d = await r.json();
+                        content.innerHTML = `
+                            <table class="admin-table">
+                                <thead><tr>
+                                    <th>ID</th><th>昵称</th><th>邮箱</th><th>注册时间</th><th>状态</th><th>操作</th>
+                                </tr></thead>
+                                <tbody>
+                                    ${d.users.map(u => `
+                                        <tr>
+                                            <td>${u.id}</td>
+                                            <td>${esc(u.nickname)} ${u.is_admin ? '<span class="badge badge-admin">管理员</span>' : ''}</td>
+                                            <td>${esc(u.email)}</td>
+                                            <td>${new Date(u.created_at * 1000).toLocaleDateString()}</td>
+                                            <td>${u.is_banned ? '<span class="badge badge-banned">已禁言</span>' : '正常'}</td>
+                                            <td>
+                                                <button class="btn btn-sm ${u.is_banned ? 'btn-primary' : 'btn-outline'}" onclick="toggleBan(${u.id})" style="color:${u.is_banned ? '#fff' : '#666'};border-color:#ddd;">${u.is_banned ? '解禁' : '禁言'}</button>
+                                                <button class="btn btn-danger btn-sm" onclick="adminDeleteUser(${u.id})">删除</button>
+                                            </td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        `;
+                    }
+                } catch(e) { content.innerHTML = '<p style="color:red">加载失败</p>'; }
+            } else if (tab === 'posts') {
+                content.innerHTML = '<div class="loading">加载帖子...</div>';
+                try {
+                    const r = await fetch(API+'/api/admin/posts', { credentials:'include' });
+                    if (r.ok) {
+                        const d = await r.json();
+                        content.innerHTML = `
+                            <table class="admin-table">
+                                <thead><tr>
+                                    <th>ID</th><th>标题</th><th>作者</th><th>时间</th><th>点赞</th><th>操作</th>
+                                </tr></thead>
+                                <tbody>
+                                    ${d.posts.map(p => `
+                                        <tr>
+                                            <td>${p.id}</td>
+                                            <td>${esc(p.title)}</td>
+                                            <td>${esc(p.nickname||'匿名')}</td>
+                                            <td>${new Date(p.created_at * 1000).toLocaleDateString()}</td>
+                                            <td>👍 ${p.likes||0}</td>
+                                            <td>
+                                                <button class="btn btn-danger btn-sm" onclick="adminDeletePost(${p.id})">删除</button>
+                                            </td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        `;
+                    }
+                } catch(e) { content.innerHTML = '<p style="color:red">加载失败</p>'; }
+            }
+        }
+
+        async function toggleBan(userId) {
+            try {
+                const r = await fetch(API+'/api/admin/users/'+userId+'/ban', { method:'POST', credentials:'include' });
+                if (r.ok) { toast('操作成功'); switchAdminTab('users'); }
+                else { const d = await r.json(); toast(d.error||'操作失败','error'); }
+            } catch(e) { toast('网络错误','error'); }
+        }
+
+        async function adminDeleteUser(userId) {
+            if (!confirm('确定删除此用户吗？会同时删除他的所有帖子和评论！')) return;
+            try {
+                const r = await fetch(API+'/api/admin/users/'+userId, { method:'DELETE', credentials:'include' });
+                if (r.ok) { toast('用户已删除'); switchAdminTab('users'); }
+                else { const d = await r.json(); toast(d.error||'删除失败','error'); }
+            } catch(e) { toast('网络错误','error'); }
+        }
+
+        async function adminDeletePost(postId) {
+            if (!confirm('确定删除此帖子吗？')) return;
+            try {
+                const r = await fetch(API+'/api/admin/posts/'+postId, { method:'DELETE', credentials:'include' });
+                if (r.ok) { toast('帖子已删除'); switchAdminTab('posts'); }
+                else { const d = await r.json(); toast(d.error||'删除失败','error'); }
+            } catch(e) { toast('网络错误','error'); }
+        }
+
+        // ===== 初始化 =====
+        fetchUser();
+        loadPosts();
+        loadStats();
+    </script>
+</body>
+</html>
