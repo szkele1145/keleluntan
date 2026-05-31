@@ -7,15 +7,12 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f0f2f5; color: #333; }
-        
-        /* 导航 */
         .nav { background: #1a1a2e; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
         .nav-left { display: flex; align-items: center; gap: 12px; }
         .nav-logo { font-size: 28px; }
         .nav-title { color: #fff; font-size: 20px; font-weight: bold; }
         .nav-title span { color: #ff6b35; }
         .nav-right { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
-        
         .btn { padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 13px; border: none; transition: all 0.2s; }
         .btn-primary { background: #ff6b35; color: #fff; }
         .btn-primary:hover { background: #ff8c5a; }
@@ -24,28 +21,19 @@
         .btn-danger { background: #e74c3c; color: #fff; }
         .btn-danger:hover { background: #c0392b; }
         .btn-sm { padding: 4px 10px; font-size: 12px; }
-        
         .container { max-width: 800px; margin: 0 auto; padding: 16px; }
-        
-        /* 搜索栏 */
         .search-bar { display: flex; gap: 8px; margin-bottom: 16px; }
         .search-bar input { flex: 1; padding: 10px 14px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px; }
         .search-bar input:focus { outline: none; border-color: #ff6b35; }
-        
-        /* 帖子卡片 */
         .post-card { background: #fff; padding: 14px 18px; border-radius: 10px; margin-bottom: 10px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); cursor: pointer; transition: all 0.2s; }
         .post-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.1); border-left: 3px solid #ff6b35; }
         .post-title { font-size: 16px; font-weight: 600; margin-bottom: 6px; color: #1a1a2e; }
         .post-meta { font-size: 12px; color: #999; display: flex; gap: 12px; flex-wrap: wrap; }
         .post-meta span { display: flex; align-items: center; gap: 3px; }
-        
-        /* 分页 */
         .pagination { display: flex; justify-content: center; gap: 4px; margin-top: 16px; flex-wrap: wrap; }
         .page-btn { padding: 6px 12px; border: 1px solid #ddd; border-radius: 4px; cursor: pointer; background: #fff; font-size: 13px; }
         .page-btn.active { background: #ff6b35; color: #fff; border-color: #ff6b35; }
         .page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-        
-        /* 弹窗 */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center; }
         .modal.show { display: flex; }
         .modal-content { background: #fff; padding: 24px; border-radius: 12px; width: 92%; max-width: 500px; max-height: 85vh; overflow-y: auto; }
@@ -57,34 +45,26 @@
         .form-group textarea { min-height: 100px; resize: vertical; }
         .modal-footer { display: flex; gap: 8px; margin-top: 16px; }
         .modal-footer .btn { flex: 1; text-align: center; }
-        
         .user-info { display: flex; align-items: center; gap: 8px; }
         .avatar { width: 30px; height: 30px; border-radius: 50%; background: #ff6b35; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: bold; background-size: cover; }
         .avatar-img { width: 30px; height: 30px; border-radius: 50%; object-fit: cover; }
         .user-name { color: #fff; font-size: 13px; }
-        
         .toast-container { position: fixed; top: 16px; right: 16px; z-index: 2000; }
         .toast { padding: 10px 20px; border-radius: 8px; color: #fff; font-size: 13px; margin-bottom: 6px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
         .toast.success { background: #52c41a; }
         .toast.error { background: #ff4d4f; }
-        
         .loading { text-align: center; padding: 40px; color: #999; }
         .empty-state { text-align: center; padding: 40px; color: #999; }
         .empty-icon { font-size: 48px; margin-bottom: 12px; }
-        
-        /* 帖子详情 */
         .post-detail-body { line-height: 1.8; font-size: 15px; white-space: pre-wrap; padding: 12px 0; border-top: 1px solid #eee; border-bottom: 1px solid #eee; margin-bottom: 12px; }
         .post-actions { display: flex; gap: 12px; margin-bottom: 12px; }
         .post-actions button { padding: 6px 14px; border: 1px solid #ddd; border-radius: 20px; cursor: pointer; background: #fff; font-size: 13px; display: flex; align-items: center; gap: 4px; }
         .post-actions button:hover { border-color: #ff6b35; color: #ff6b35; }
         .post-actions button.active { background: #ff6b35; color: #fff; border-color: #ff6b35; }
-        
         .comment-item { padding: 10px 14px; background: #f8f9fa; border-radius: 8px; margin-bottom: 6px; }
         .comment-header { display: flex; justify-content: space-between; margin-bottom: 4px; font-size: 12px; }
         .comment-author { font-weight: 600; }
         .comment-time { color: #999; }
-        
-        /* 后台 */
         .admin-container { max-width: 1000px; margin: 0 auto; padding: 16px; }
         .admin-tabs { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
         .admin-tab { padding: 8px 16px; border-radius: 6px; cursor: pointer; border: 1px solid #ddd; background: #fff; font-size: 13px; }
@@ -93,18 +73,14 @@
         .admin-table th, .admin-table td { padding: 10px 12px; text-align: left; border-bottom: 1px solid #eee; font-size: 13px; }
         .admin-table th { background: #f5f5f5; font-weight: 600; }
         .admin-table tr:hover { background: #fafafa; }
-        
         .badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; }
         .badge-admin { background: #ffd700; color: #1a1a2e; }
         .badge-banned { background: #e74c3c; color: #fff; }
-        
-        /* 用户菜单 */
         .user-menu { position: relative; }
         .user-dropdown { display: none; position: absolute; top: 100%; right: 0; background: #fff; border-radius: 8px; box-shadow: 0 8px 24px rgba(0,0,0,0.15); padding: 8px; min-width: 150px; z-index: 200; }
         .user-dropdown.show { display: block; }
         .user-dropdown a { display: block; padding: 8px 12px; color: #333; text-decoration: none; font-size: 13px; border-radius: 4px; cursor: pointer; }
         .user-dropdown a:hover { background: #f5f5f5; }
-        
         @media (max-width: 600px) {
             .nav { padding: 10px 12px; }
             .nav-title { font-size: 16px; }
@@ -142,14 +118,11 @@
     </nav>
 
     <div class="container" id="mainContainer">
-        <!-- 搜索栏 -->
         <div class="search-bar" id="searchBar" style="display:none;">
             <input type="text" id="searchInput" placeholder="搜索帖子..." onkeydown="if(event.key==='Enter')doSearch()">
             <button class="btn btn-primary" onclick="doSearch()">搜索</button>
             <button class="btn btn-outline" onclick="cancelSearch()" style="color:#666;border-color:#ddd;">取消</button>
         </div>
-
-        <!-- 帖子列表 -->
         <div id="postList"><div class="loading">加载中...</div></div>
         <div class="pagination" id="pagination"></div>
     </div>
@@ -162,17 +135,17 @@
             <div class="modal-title" id="loginTitle">🥤 登录可乐论坛</div>
             <div class="form-group">
                 <label>邮箱</label>
-                <input type="email" id="emailInput" placeholder="输入邮箱">
+                <input type="email" id="loginEmail" placeholder="输入邮箱">
             </div>
-            <div class="form-group" id="nickGroup" style="display:none">
+            <div class="form-group" id="regNickGroup" style="display:none">
                 <label>昵称</label>
-                <input type="text" id="nickInput" placeholder="取个名字吧">
+                <input type="text" id="regNick" placeholder="输入昵称">
             </div>
             <p id="switchText" style="text-align:center;font-size:13px;color:#999;margin-bottom:12px;">
-                新用户？<a href="#" onclick="switchMode()">设置昵称</a>
+                没有账号？<a href="#" onclick="switchAuthMode()">去注册</a>
             </p>
             <div class="modal-footer">
-                <button class="btn btn-primary" onclick="submitAuth()" id="authBtn">🚀 进入论坛</button>
+                <button class="btn btn-primary" onclick="submitAuth()" id="authBtn">🚀 登录</button>
                 <button class="btn btn-outline" onclick="closeModal('loginModal')" style="color:#666;border-color:#ddd;">取消</button>
             </div>
         </div>
@@ -225,7 +198,7 @@
                 <img id="profileAvatar" class="avatar-img" style="width:80px;height:80px;border-radius:50%;display:none;margin:0 auto;">
                 <div id="profileAvatarLetter" style="width:80px;height:80px;border-radius:50%;background:#ff6b35;color:#fff;display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto;">可</div>
                 <br>
-                <button class="btn btn-outline btn-sm" onclick="uploadAvatar()" style="margin-top:8px;color:#666;border-color:#ddd;">📷 上传头像</button>
+                <button class="btn btn-outline btn-sm" onclick="document.getElementById('avatarInput').click()" style="margin-top:8px;color:#666;border-color:#ddd;">📷 上传头像</button>
                 <input type="file" id="avatarInput" accept="image/*" style="display:none" onchange="handleAvatarUpload(event)">
             </div>
             <div class="form-group">
@@ -237,8 +210,8 @@
                 <input type="text" id="profileEmail" disabled style="background:#f5f5f5;">
             </div>
             <div class="modal-footer">
-                <button class="btn btn-primary" onclick="updateProfile()">保存</button>
-                <button class="btn btn-outline" onclick="closeModal('profileModal')" style="color:#666;border-color:#ddd;">关闭</button>
+                <button class="btn btn-primary" onclick="updateProfile()">💾 保存</button>
+                <button class="btn btn-outline" onclick="closeModal('profileModal')" style="flex:1;color:#666;border-color:#ddd;">关闭</button>
             </div>
         </div>
     </div>
@@ -261,9 +234,9 @@
             <div id="adminLoginForm">
                 <div class="form-group">
                     <label>管理员密码</label>
-                    <input type="password" id="adminPwdInput" placeholder="输入密码">
+                    <input type="password" id="adminPwdInput" placeholder="输入管理员密码">
                 </div>
-                <button class="btn btn-primary" onclick="adminLogin()">登录后台</button>
+                <button class="btn btn-primary" onclick="adminLogin()">🔑 验证身份</button>
             </div>
             <div id="adminPanel" style="display:none;">
                 <div class="admin-tabs">
@@ -279,14 +252,15 @@
     </div>
 
     <script>
-        const API = '';
+        // ===== 配置 =====
+        const API = 'https://api.kele233.cc.cd';
+
         let user = null;
         let page = 1;
         let isReg = false;
         let currentPostId = null;
         let searchQuery = '';
 
-        // Toast
         function toast(msg, type = 'success') {
             const t = document.createElement('div');
             t.className = 'toast ' + type;
@@ -300,8 +274,10 @@
 
         function esc(s) { const d = document.createElement('div'); d.textContent = s||''; return d.innerHTML; }
 
-        function timeAgo(dateStr) {
-            const diff = Date.now() - new Date(dateStr).getTime();
+        function timeAgo(ts) {
+            if (!ts) return '刚刚';
+            const d = new Date(ts);
+            const diff = Date.now() - d.getTime();
             if (diff < 60000) return '刚刚';
             if (diff < 3600000) return Math.floor(diff/60000)+'分钟前';
             if (diff < 86400000) return Math.floor(diff/3600000)+'小时前';
@@ -309,8 +285,7 @@
         }
 
         function toggleMenu() {
-            const menu = document.getElementById('userDropdown');
-            menu.classList.toggle('show');
+            document.getElementById('userDropdown').classList.toggle('show');
         }
 
         document.addEventListener('click', function(e) {
@@ -319,7 +294,15 @@
             }
         });
 
-        // ===== 搜索 =====
+        async function api(path, options = {}) {
+            const url = API + path;
+            const headers = { 'Content-Type': 'application/json', ...options.headers };
+            const res = await fetch(url, { ...options, headers, credentials: 'include' });
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.error || '请求失败');
+            return data;
+        }
+
         function showSearch() {
             document.getElementById('searchBar').style.display = 'flex';
             document.getElementById('searchInput').focus();
@@ -339,75 +322,69 @@
             loadPosts();
         }
 
-        // ===== 登录 =====
         function showLogin() {
             isReg = false;
             document.getElementById('loginTitle').textContent = '🥤 登录可乐论坛';
-            document.getElementById('nickGroup').style.display = 'none';
-            document.getElementById('switchText').innerHTML = '新用户？<a href="#" onclick="switchMode()">设置昵称</a>';
-            document.getElementById('authBtn').textContent = '🚀 进入论坛';
-            document.getElementById('emailInput').value = '';
-            document.getElementById('nickInput').value = '';
+            document.getElementById('regNickGroup').style.display = 'none';
+            document.getElementById('switchText').innerHTML = '没有账号？<a href="#" onclick="switchAuthMode()">去注册</a>';
+            document.getElementById('authBtn').textContent = '🚀 登录';
+            document.getElementById('loginEmail').value = '';
+            document.getElementById('regNick').value = '';
             showModal('loginModal');
         }
 
-        function switchMode() {
+        function switchAuthMode() {
             isReg = !isReg;
             if (isReg) {
                 document.getElementById('loginTitle').textContent = '📝 注册可乐论坛';
-                document.getElementById('nickGroup').style.display = 'block';
-                document.getElementById('switchText').innerHTML = '已有账号？<a href="#" onclick="switchMode()">直接登录</a>';
+                document.getElementById('regNickGroup').style.display = 'block';
+                document.getElementById('switchText').innerHTML = '已有账号？<a href="#" onclick="switchAuthMode()">去登录</a>';
                 document.getElementById('authBtn').textContent = '📝 注册';
             } else {
                 document.getElementById('loginTitle').textContent = '🥤 登录可乐论坛';
-                document.getElementById('nickGroup').style.display = 'none';
-                document.getElementById('switchText').innerHTML = '新用户？<a href="#" onclick="switchMode()">设置昵称</a>';
-                document.getElementById('authBtn').textContent = '🚀 进入论坛';
+                document.getElementById('regNickGroup').style.display = 'none';
+                document.getElementById('switchText').innerHTML = '没有账号？<a href="#" onclick="switchAuthMode()">去注册</a>';
+                document.getElementById('authBtn').textContent = '🚀 登录';
             }
         }
 
         async function submitAuth() {
-            const email = document.getElementById('emailInput').value.trim();
-            const nick = document.getElementById('nickInput').value.trim();
-            if (!email || !email.includes('@')) { toast('请输入有效邮箱', 'error'); return; }
-
+            const email = document.getElementById('loginEmail').value.trim();
             document.getElementById('authBtn').disabled = true;
             document.getElementById('authBtn').textContent = '处理中...';
-
             try {
+                let data;
                 if (isReg) {
-                    if (!nick) { toast('请输入昵称', 'error'); document.getElementById('authBtn').disabled = false; document.getElementById('authBtn').textContent = '📝 注册'; return; }
-                    const r = await fetch(API+'/api/auth/register', {
-                        method:'POST', headers:{'Content-Type':'application/json'},
-                        body:JSON.stringify({email, nickname:nick}), credentials:'include'
-                    });
-                    const d = await r.json();
-                    if (r.ok) { toast('🎉 注册成功！'); closeModal('loginModal'); user = d.user; renderUser(); loadStats(); }
-                    else { toast(d.error||'注册失败','error'); }
+                    const nickname = document.getElementById('regNick').value.trim();
+                    if (!email || !nickname) { toast('请填写邮箱和昵称', 'error'); document.getElementById('authBtn').disabled = false; document.getElementById('authBtn').textContent = '📝 注册'; return; }
+                    data = await api('/api/auth/register', { method: 'POST', body: JSON.stringify({ email, nickname }) });
+                    toast('🎉 注册成功！');
                 } else {
-                    const r = await fetch(API+'/api/auth/login', {
-                        method:'POST', headers:{'Content-Type':'application/json'},
-                        body:JSON.stringify({email}), credentials:'include'
-                    });
-                    const d = await r.json();
-                    if (r.ok) { toast('🎉 欢迎回来！'); closeModal('loginModal'); user = d.user; renderUser(); loadStats(); }
-                    else if (d.error === '用户不存在') { toast('新用户请点"设置昵称"注册','info'); }
-                    else { toast(d.error||'登录失败','error'); }
+                    if (!email) { toast('请填写邮箱', 'error'); document.getElementById('authBtn').disabled = false; document.getElementById('authBtn').textContent = '🚀 登录'; return; }
+                    data = await api('/api/auth/login', { method: 'POST', body: JSON.stringify({ email }) });
+                    toast('🎉 欢迎回来！');
                 }
-            } catch(e) { toast('网络错误','error'); }
-
+                user = data.user;
+                renderUser();
+                closeModal('loginModal');
+                loadPosts();
+            } catch (e) {
+                toast(e.message || '操作失败', 'error');
+            }
             document.getElementById('authBtn').disabled = false;
-            document.getElementById('authBtn').textContent = isReg ? '📝 注册' : '🚀 进入论坛';
+            document.getElementById('authBtn').textContent = isReg ? '📝 注册' : '🚀 登录';
         }
 
         async function logout() {
-            try { await fetch(API+'/api/auth/logout',{method:'POST',credentials:'include'}); } catch(e) {}
-            user = null; renderUser(); toast('已退出','info');
+            try { await api('/api/auth/logout', { method: 'POST' }); } catch(e) {}
+            user = null;
+            renderUser();
+            closeModal('profileModal');
+            closeModal('favoritesModal');
+            closeModal('adminModal');
+            toast('已退出');
             document.getElementById('userDropdown').classList.remove('show');
-        }
-
-        async function fetchUser() {
-            try { const r = await fetch(API+'/api/auth/me',{credentials:'include'}); if (r.ok) { const d = await r.json(); user = d.user; renderUser(); } } catch(e) {}
+            loadPosts();
         }
 
         function renderUser() {
@@ -415,10 +392,11 @@
             const postBtn = document.getElementById('postBtn');
             const userInfo = document.getElementById('userInfo');
             const adminBtn = document.getElementById('adminBtn');
-
             if (user) {
-                loginBtn.style.display='none'; postBtn.style.display='inline-block'; userInfo.style.display='flex';
-                document.getElementById('nameEl').textContent = user.nickname;
+                loginBtn.style.display = 'none';
+                postBtn.style.display = 'inline-block';
+                userInfo.style.display = 'flex';
+                document.getElementById('nameEl').textContent = user.nickname || user.username;
                 if (user.avatar) {
                     document.getElementById('avatarEl').src = user.avatar.startsWith('data:') ? user.avatar : `data:image/jpeg;base64,${user.avatar}`;
                     document.getElementById('avatarEl').style.display = 'block';
@@ -426,199 +404,72 @@
                 } else {
                     document.getElementById('avatarEl').style.display = 'none';
                     document.getElementById('avatarLetter').style.display = 'flex';
-                    document.getElementById('avatarLetter').textContent = user.nickname[0];
+                    document.getElementById('avatarLetter').textContent = (user.nickname||user.username||'?')[0];
                 }
                 adminBtn.style.display = user.role === 'admin' ? 'block' : 'none';
             } else {
-                loginBtn.style.display='inline-block'; postBtn.style.display='none'; userInfo.style.display='none';
+                loginBtn.style.display = 'inline-block';
+                postBtn.style.display = 'none';
+                userInfo.style.display = 'none';
             }
         }
 
-        // ===== 统计 =====
-        async function loadStats() {
-            try { const r = await fetch(API+'/api/stats'); if(r.ok){const d=await r.json();} } catch(e) {}
+        async function fetchUser() {
+            try {
+                const data = await api('/api/auth/me');
+                if (data.user) {
+                    user = data.user;
+                    renderUser();
+                }
+            } catch(e) {}
         }
 
-        // ===== 帖子 =====
         async function loadPosts() {
             document.getElementById('postList').innerHTML = '<div class="loading">加载中...</div>';
             try {
-                let url = API+'/api/posts?page='+page;
-                if (searchQuery) url = API+'/api/search?q='+encodeURIComponent(searchQuery)+'&page='+page;
-                const r = await fetch(url);
-                if(r.ok){
-                    const d = await r.json();
-                    if(!d.posts||d.posts.length===0) {
-                        document.getElementById('postList').innerHTML = '<div class="empty-state"><div class="empty-icon">📭</div><p>暂无帖子</p></div>';
-                    } else {
-                        document.getElementById('postList').innerHTML = d.posts.map(p => `
-                            <div class="post-card" onclick="showDetail(${p.id})">
-                                <div class="post-title">${esc(p.title)}</div>
-                                <div class="post-meta">
-                                    <span>👤 ${esc(p.nickname||'匿名')}</span>
-                                    <span>🕐 ${timeAgo(p.created_at)}</span>
-                                    <span>💬 ${p.comment_count||0}</span>
-                                    <span>👍 ${p.likes||0}</span>
-                                    <span>👎 ${p.dislikes||0}</span>
-                                </div>
+                let url = '/api/posts?page=' + page + '&limit=20';
+                if (searchQuery) url += '&q=' + encodeURIComponent(searchQuery);
+                const data = await api(url);
+                if (!data.posts || data.posts.length === 0) {
+                    document.getElementById('postList').innerHTML = '<div class="empty-state"><div class="empty-icon">📭</div><p>暂无帖子</p></div>';
+                } else {
+                    document.getElementById('postList').innerHTML = data.posts.map(p => `
+                        <div class="post-card" onclick="showDetail(${p.id})">
+                            <div class="post-title">${esc(p.title)}</div>
+                            <div class="post-meta">
+                                <span>👤 ${esc(p.nickname || '匿名')}</span>
+                                <span>🕐 ${timeAgo(p.created_at)}</span>
+                                <span>👍 ${p.likes || 0}</span>
+                                <span>👎 ${p.dislikes || 0}</span>
+                                <span>⭐ ${p.favorites || 0}</span>
                             </div>
-                        `).join('');
-                    }
-                    renderPagination(d.totalPages, d.currentPage);
+                        </div>
+                    `).join('');
                 }
-            } catch(e) { document.getElementById('postList').innerHTML = '<div class="empty-state"><div class="empty-icon">😢</div><p>加载失败</p></div>'; }
+                const totalPages = data.totalPages || 1;
+                renderPagination(totalPages, page);
+            } catch (e) {
+                document.getElementById('postList').innerHTML = '<div class="empty-state"><div class="empty-icon">😢</div><p>加载失败: ' + esc(e.message) + '</p></div>';
+            }
         }
 
         function renderPagination(total, current) {
             const c = document.getElementById('pagination');
             if (total <= 1) { c.innerHTML = ''; return; }
-            let h = '<button class="page-btn" onclick="goPage('+(current-1)+')"'+(current<=1?'disabled':'')+'>上一页</button>';
+            let h = '<button class="page-btn" onclick="goPage(' + (current - 1) + ')"' + (current <= 1 ? 'disabled' : '') + '>上一页</button>';
             for (let i = 1; i <= total; i++) {
-                if (i === current) h += '<button class="page-btn active">'+i+'</button>';
-                else if (i === 1 || i === total || Math.abs(i-current) <= 2) h += '<button class="page-btn" onclick="goPage('+i+')">'+i+'</button>';
+                if (i === current) h += '<button class="page-btn active">' + i + '</button>';
+                else if (i === 1 || i === total || Math.abs(i - current) <= 2) h += '<button class="page-btn" onclick="goPage(' + i + ')">' + i + '</button>';
                 else if (!h.endsWith('...')) h += '<button class="page-btn" disabled>...</button>';
             }
-            h += '<button class="page-btn" onclick="goPage('+(current+1)+')"'+(current>=total?'disabled':'')+'>下一页</button>';
+            h += '<button class="page-btn" onclick="goPage(' + (current + 1) + ')"' + (current >= total ? 'disabled' : '') + '>下一页</button>';
             c.innerHTML = h;
         }
 
         function goPage(p) { page = p; loadPosts(); }
 
-        // ===== 帖子详情 =====
-        async function showDetail(id) {
-            try {
-                const r = await fetch(API+'/api/posts/'+id, {credentials:'include'});
-                if (r.ok) {
-                    const d = await r.json();
-                    const p = d.post;
-                    currentPostId = p.id;
-                    document.getElementById('detailTitle').textContent = '📖 '+p.title;
-
-                    let delBtn = '';
-                    if (user && (user.role === 'admin' || user.id === p.author_id)) {
-                        delBtn = `<button class="btn btn-danger btn-sm" onclick="deletePost(${p.id})" style="margin-left:8px;">删除</button>`;
-                    }
-
-                    document.getElementById('detailContent').innerHTML = `
-                        <div style="color:#999;font-size:13px;margin-bottom:8px;">
-                            👤 ${esc(p.nickname)} | 🕐 ${timeAgo(p.created_at)} ${delBtn}
-                        </div>
-                        <div class="post-detail-body">${esc(p.content)}</div>
-                    `;
-
-                    // 点赞/踩/收藏按钮
-                    let actionsHtml = `
-                        <button onclick="handleLike(${p.id},'like')" class="${p.userLike==='like'?'active':''}">👍 <span id="likeCount">${p.likes||0}</span></button>
-                        <button onclick="handleLike(${p.id},'dislike')" class="${p.userLike==='dislike'?'active':''}">👎 <span id="dislikeCount">${p.dislikes||0}</span></button>
-                    `;
-                    if (user) {
-                        actionsHtml += `<button onclick="handleFavorite(${p.id})" id="favBtn">⭐ 收藏</button>`;
-                    }
-                    document.getElementById('postActions').innerHTML = actionsHtml;
-
-                    document.getElementById('commentInput').value = '';
-                    loadComments(p.id);
-                    showModal('detailModal');
-                }
-            } catch(e) { toast('加载失败','error'); }
-        }
-
-        // ===== 点赞/踩 =====
-        async function handleLike(postId, type) {
-            if (!user) { toast('请先登录','error'); return; }
-            try {
-                const r = await fetch(API+'/api/posts/'+postId+'/'+type, {
-                    method:'POST', credentials:'include'
-                });
-                if (r.ok) {
-                    // 刷新帖子详情
-                    const detail = await fetch(API+'/api/posts/'+postId);
-                    const d = await detail.json();
-                    document.getElementById('likeCount').textContent = d.post.likes;
-                    document.getElementById('dislikeCount').textContent = d.post.dislikes;
-                }
-            } catch(e) {}
-        }
-
-        // ===== 收藏 =====
-        async function handleFavorite(postId) {
-            if (!user) { toast('请先登录','error'); return; }
-            try {
-                const r = await fetch(API+'/api/posts/'+postId+'/favorite', {
-                    method:'POST', credentials:'include'
-                });
-                if (r.ok) { toast('收藏成功！'); document.getElementById('favBtn').textContent = '⭐ 已收藏'; }
-                else { const d = await r.json(); toast(d.error||'操作失败','error'); }
-            } catch(e) {}
-        }
-
-        // ===== 评论 =====
-        async function loadComments(postId) {
-            try {
-                const r = await fetch(API+'/api/posts/'+postId+'/comments', {credentials:'include'});
-                if (r.ok) {
-                    const d = await r.json();
-                    document.getElementById('commentCount').textContent = d.comments.length;
-                    if (d.comments.length === 0) {
-                        document.getElementById('commentList').innerHTML = '<p style="color:#999;text-align:center;padding:16px;">暂无评论</p>';
-                        return;
-                    }
-                    document.getElementById('commentList').innerHTML = d.comments.map(c => {
-                        let del = '';
-                        if (user && (user.role === 'admin' || user.id === c.author_id)) {
-                            del = `<button class="btn btn-danger btn-sm" onclick="deleteComment(${c.id})" style="margin-left:6px;">删除</button>`;
-                        }
-                        return `
-                            <div class="comment-item">
-                                <div class="comment-header">
-                                    <span class="comment-author">👤 ${esc(c.nickname)}</span>
-                                    <span class="comment-time">${timeAgo(c.created_at)}${del}</span>
-                                </div>
-                                <div class="comment-content">${esc(c.content)}</div>
-                            </div>
-                        `;
-                    }).join('');
-                }
-            } catch(e) {}
-        }
-
-        async function addComment() {
-            if (!user) { toast('请先登录','error'); return; }
-            const content = document.getElementById('commentInput').value.trim();
-            if (!content) { toast('请输入评论内容','error'); return; }
-            try {
-                const r = await fetch(API+'/api/comments', {
-                    method:'POST', headers:{'Content-Type':'application/json'},
-                    body:JSON.stringify({post_id:currentPostId,content}), credentials:'include'
-                });
-                if (r.ok) { toast('评论成功'); document.getElementById('commentInput').value = ''; loadComments(currentPostId); }
-                                else { const d = await r.json(); toast(d.error||'评论失败','error'); }
-            } catch(e) { toast('网络错误','error'); }
-        }
-
-        // ===== 删除帖子 =====
-        async function deletePost(id) {
-            if (!confirm('确定删除这个帖子吗？')) return;
-            try {
-                const r = await fetch(API+'/api/admin/posts/'+id, { method:'DELETE', credentials:'include' });
-                if (r.ok) { toast('帖子已删除'); closeModal('detailModal'); loadPosts(); }
-                else { const d = await r.json(); toast(d.error||'删除失败','error'); }
-            } catch(e) { toast('网络错误','error'); }
-        }
-
-        // ===== 删除评论 =====
-        async function deleteComment(id) {
-            if (!confirm('确定删除此评论吗？')) return;
-            try {
-                const r = await fetch(API+'/api/admin/comments/'+id, { method:'DELETE', credentials:'include' });
-                if (r.ok) { toast('评论已删除'); loadComments(currentPostId); }
-                else { const d = await r.json(); toast(d.error||'删除失败','error'); }
-            } catch(e) { toast('网络错误','error'); }
-        }
-
-        // ===== 创建帖子 =====
         function showCreatePost() {
-            if (!user) { toast('请先登录','error'); return; }
+            if (!user) { toast('请先登录', 'error'); return; }
             document.getElementById('titleInput').value = '';
             document.getElementById('contentInput').value = '';
             showModal('postModal');
@@ -627,244 +478,88 @@
         async function createPost() {
             const title = document.getElementById('titleInput').value.trim();
             const content = document.getElementById('contentInput').value.trim();
-            if (!title || !content) { toast('请填写完整','error'); return; }
+            if (!title || !content) { toast('请填写完整', 'error'); return; }
             try {
-                const r = await fetch(API+'/api/posts', {
-                    method:'POST', headers:{'Content-Type':'application/json'},
-                    body:JSON.stringify({title,content}), credentials:'include'
-                });
-                if (r.ok) { toast('发帖成功！'); closeModal('postModal'); page = 1; loadPosts(); }
-                else { const d = await r.json(); toast(d.error||'发帖失败','error'); }
-            } catch(e) { toast('网络错误','error'); }
+                await api('/api/posts', { method: 'POST', body: JSON.stringify({ title, content }) });
+                toast('发帖成功！');
+                closeModal('postModal');
+                page = 1;
+                loadPosts();
+            } catch (e) { toast(e.message, 'error'); }
         }
 
-        // ===== 个人资料 =====
-        function showProfile() {
-            if (!user) return;
-            document.getElementById('profileNickInput').value = user.nickname;
-            document.getElementById('profileEmail').value = user.email || '';
-            if (user.avatar) {
-                document.getElementById('profileAvatar').src = user.avatar.startsWith('data:') ? user.avatar : `data:image/jpeg;base64,${user.avatar}`;
-                document.getElementById('profileAvatar').style.display = 'block';
-                document.getElementById('profileAvatarLetter').style.display = 'none';
-            } else {
-                document.getElementById('profileAvatar').style.display = 'none';
-                document.getElementById('profileAvatarLetter').style.display = 'flex';
-                document.getElementById('profileAvatarLetter').textContent = user.nickname[0];
-            }
-            closeModal('detailModal');
-            showModal('profileModal');
-            document.getElementById('userDropdown').classList.remove('show');
-        }
-
-        async function updateProfile() {
-            const nickname = document.getElementById('profileNickInput').value.trim();
-            if (!nickname) { toast('昵称不能为空','error'); return; }
+        async function showDetail(id) {
             try {
-                const r = await fetch(API+'/api/profile', {
-                    method:'PUT', headers:{'Content-Type':'application/json'},
-                    body:JSON.stringify({nickname}), credentials:'include'
-                });
-                if (r.ok) { toast('保存成功'); user.nickname = nickname; renderUser(); }
-                else { const d = await r.json(); toast(d.error||'保存失败','error'); }
-            } catch(e) { toast('网络错误','error'); }
-        }
-
-        // ===== 头像上传 =====
-        function uploadAvatar() {
-            document.getElementById('avatarInput').click();
-        }
-
-        async function handleAvatarUpload(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-            if (file.size > 500 * 1024) { toast('图片不能超过500KB','error'); return; }
-            
-            const reader = new FileReader();
-            reader.onload = async function(e) {
-                const base64 = e.target.result;
-                try {
-                    const r = await fetch(API+'/api/avatar', {
-                        method:'POST', headers:{'Content-Type':'application/json'},
-                        body:JSON.stringify({avatar: base64}), credentials:'include'
-                    });
-                    if (r.ok) {
-                        toast('头像上传成功');
-                        user.avatar = base64;
-                        renderUser();
-                        document.getElementById('profileAvatar').src = base64;
-                        document.getElementById('profileAvatar').style.display = 'block';
-                        document.getElementById('profileAvatarLetter').style.display = 'none';
-                    } else {
-                        const d = await r.json();
-                        toast(d.error||'上传失败','error');
-                    }
-                } catch(e) { toast('网络错误','error'); }
-            };
-            reader.readAsDataURL(file);
-        }
-
-        // ===== 我的收藏 =====
-        function showFavorites() {
-            if (!user) { toast('请先登录','error'); return; }
-            document.getElementById('favoritesList').innerHTML = '<div class="loading">加载中...</div>';
-            showModal('favoritesModal');
-            loadFavorites();
-        }
-
-        async function loadFavorites() {
-            try {
-                const r = await fetch(API+'/api/favorites', { credentials:'include' });
-                if (r.ok) {
-                    const d = await r.json();
-                    if (!d.posts || d.posts.length === 0) {
-                        document.getElementById('favoritesList').innerHTML = '<div class="empty-state"><div class="empty-icon">⭐</div><p>还没有收藏</p></div>';
-                    } else {
-                        document.getElementById('favoritesList').innerHTML = d.posts.map(p => `
-                            <div class="post-card" onclick="showDetail(${p.id})">
-                                <div class="post-title">${esc(p.title)}</div>
-                                <div class="post-meta">
-                                    <span>👤 ${esc(p.nickname||'匿名')}</span>
-                                    <span>🕐 ${timeAgo(p.created_at)}</span>
-                                    <span>👍 ${p.likes||0}</span>
-                                </div>
-                            </div>
-                        `).join('');
-                    }
+                const data = await api('/api/posts/' + id);
+                const p = data.post;
+                currentPostId = p.id;
+                document.getElementById('detailTitle').textContent = '📖 ' + p.title;
+                let delBtn = '';
+                if (user && (user.role === 'admin' || user.id === p.author_id)) {
+                    delBtn = `<button class="btn btn-danger btn-sm" onclick="deletePost(${p.id})" style="margin-left:8px;">🗑️ 删除</button>`;
                 }
-            } catch(e) {
-                document.getElementById('favoritesList').innerHTML = '<div class="empty-state"><div class="empty-icon">😢</div><p>加载失败</p></div>';
-            }
+                document.getElementById('detailContent').innerHTML = `
+                    <div style="color:#999;font-size:13px;margin-bottom:8px;">
+                        👤 ${esc(p.nickname)} | 🕐 ${timeAgo(p.created_at)} ${delBtn}
+                    </div>
+                    <div class="post-detail-body">${esc(p.content)}</div>
+                `;
+                let actionsHtml = `
+                    <button onclick="handleLike(${p.id},'like')">👍 <span id="likeCount">${p.likes || 0}</span></button>
+                    <button onclick="handleLike(${p.id},'dislike')">👎 <span id="dislikeCount">${p.dislikes || 0}</span></button>
+                `;
+                if (user) {
+                    actionsHtml += `<button onclick="handleFavorite(${p.id})">⭐ 收藏</button>`;
+                }
+                document.getElementById('postActions').innerHTML = actionsHtml;
+                document.getElementById('commentInput').value = '';
+                loadComments(p.id);
+                showModal('detailModal');
+            } catch (e) { toast('加载失败: ' + e.message, 'error'); }
         }
 
-        // ===== 管理后台 =====
-        function showAdmin() {
-            document.getElementById('adminLoginForm').style.display = 'block';
-            document.getElementById('adminPanel').style.display = 'none';
-            document.getElementById('adminPwdInput').value = '';
-            document.getElementById('userDropdown').classList.remove('show');
-            showModal('adminModal');
-        }
-
-        async function adminLogin() {
-            const pwd = document.getElementById('adminPwdInput').value.trim();
-            if (!pwd) { toast('请输入密码','error'); return; }
+        async function deletePost(id) {
+            if (!confirm('确定删除吗？')) return;
             try {
-                const r = await fetch(API+'/api/admin/verify', {
-                    method:'POST', headers:{'Content-Type':'application/json'},
-                    body:JSON.stringify({password: pwd}), credentials:'include'
-                });
-                if (r.ok) {
-                    toast('验证成功');
-                    document.getElementById('adminLoginForm').style.display = 'none';
-                    document.getElementById('adminPanel').style.display = 'block';
-                    switchAdminTab('users');
+                await api('/api/admin/posts/' + id, { method: 'DELETE' });
+                toast('已删除');
+                closeModal('detailModal');
+                loadPosts();
+            } catch (e) { toast(e.message, 'error'); }
+        }
+
+        async function loadComments(postId) {
+            try {
+                const data = await api('/api/posts/' + postId + '/comments');
+                document.getElementById('commentCount').textContent = (data.comments||[]).length;
+                if (!data.comments || data.comments.length === 0) {
+                    document.getElementById('commentList').innerHTML = '<div style="text-align:center;padding:12px;color:#999;font-size:13px;">暂无评论</div>';
                 } else {
-                    const d = await r.json();
-                    toast(d.error||'密码错误','error');
+                    document.getElementById('commentList').innerHTML = data.comments.map(c => `
+                        <div class="comment-item">
+                            <div class="comment-header">
+                                <span class="comment-author">👤 ${esc(c.nickname)}</span>
+                                <span class="comment-time">${timeAgo(c.created_at)}</span>
+                            </div>
+                            <div style="font-size:14px;">${esc(c.content)}</div>
+                        </div>
+                    `).join('');
                 }
-            } catch(e) { toast('网络错误','error'); }
+            } catch (e) {}
         }
 
-        async function switchAdminTab(tab, el) {
-            if (el) {
-                document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
-                el.classList.add('active');
-            }
-            const content = document.getElementById('adminContent');
-            
-            if (tab === 'users') {
-                content.innerHTML = '<div class="loading">加载用户...</div>';
-                try {
-                    const r = await fetch(API+'/api/admin/users', { credentials:'include' });
-                    if (r.ok) {
-                        const d = await r.json();
-                        content.innerHTML = `
-                            <table class="admin-table">
-                                <thead><tr>
-                                    <th>ID</th><th>昵称</th><th>邮箱</th><th>注册时间</th><th>状态</th><th>操作</th>
-                                </tr></thead>
-                                <tbody>
-                                    ${d.users.map(u => `
-                                        <tr>
-                                            <td>${u.id}</td>
-                                            <td>${esc(u.nickname)} ${u.is_admin ? '<span class="badge badge-admin">管理员</span>' : ''}</td>
-                                            <td>${esc(u.email)}</td>
-                                            <td>${new Date(u.created_at * 1000).toLocaleDateString()}</td>
-                                            <td>${u.is_banned ? '<span class="badge badge-banned">已禁言</span>' : '正常'}</td>
-                                            <td>
-                                                <button class="btn btn-sm ${u.is_banned ? 'btn-primary' : 'btn-outline'}" onclick="toggleBan(${u.id})" style="color:${u.is_banned ? '#fff' : '#666'};border-color:#ddd;">${u.is_banned ? '解禁' : '禁言'}</button>
-                                                <button class="btn btn-danger btn-sm" onclick="adminDeleteUser(${u.id})">删除</button>
-                                            </td>
-                                        </tr>
-                                    `).join('')}
-                                </tbody>
-                            </table>
-                        `;
-                    }
-                } catch(e) { content.innerHTML = '<p style="color:red">加载失败</p>'; }
-            } else if (tab === 'posts') {
-                content.innerHTML = '<div class="loading">加载帖子...</div>';
-                try {
-                    const r = await fetch(API+'/api/admin/posts', { credentials:'include' });
-                    if (r.ok) {
-                        const d = await r.json();
-                        content.innerHTML = `
-                            <table class="admin-table">
-                                <thead><tr>
-                                    <th>ID</th><th>标题</th><th>作者</th><th>时间</th><th>点赞</th><th>操作</th>
-                                </tr></thead>
-                                <tbody>
-                                    ${d.posts.map(p => `
-                                        <tr>
-                                            <td>${p.id}</td>
-                                            <td>${esc(p.title)}</td>
-                                            <td>${esc(p.nickname||'匿名')}</td>
-                                            <td>${new Date(p.created_at * 1000).toLocaleDateString()}</td>
-                                            <td>👍 ${p.likes||0}</td>
-                                            <td>
-                                                <button class="btn btn-danger btn-sm" onclick="adminDeletePost(${p.id})">删除</button>
-                                            </td>
-                                        </tr>
-                                    `).join('')}
-                                </tbody>
-                            </table>
-                        `;
-                    }
-                } catch(e) { content.innerHTML = '<p style="color:red">加载失败</p>'; }
-            }
-        }
-
-        async function toggleBan(userId) {
+        async function addComment() {
+            if (!user) { toast('请先登录', 'error'); return; }
+            const content = document.getElementById('commentInput').value.trim();
+            if (!content) { toast('请填写评论', 'error'); return; }
             try {
-                const r = await fetch(API+'/api/admin/users/'+userId+'/ban', { method:'POST', credentials:'include' });
-                if (r.ok) { toast('操作成功'); switchAdminTab('users'); }
-                else { const d = await r.json(); toast(d.error||'操作失败','error'); }
-            } catch(e) { toast('网络错误','error'); }
+                await api('/api/comments', { method: 'POST', body: JSON.stringify({ post_id: currentPostId, content }) });
+                toast('评论成功');
+                document.getElementById('commentInput').value = '';
+                loadComments(currentPostId);
+            } catch (e) { toast(e.message, 'error'); }
         }
 
-        async function adminDeleteUser(userId) {
-            if (!confirm('确定删除此用户吗？会同时删除他的所有帖子和评论！')) return;
+        async function handleLike(postId, type) {
+            if (!user) { toast('请先登录', 'error'); return; }
             try {
-                const r = await fetch(API+'/api/admin/users/'+userId, { method:'DELETE', credentials:'include' });
-                if (r.ok) { toast('用户已删除'); switchAdminTab('users'); }
-                else { const d = await r.json(); toast(d.error||'删除失败','error'); }
-            } catch(e) { toast('网络错误','error'); }
-        }
-
-        async function adminDeletePost(postId) {
-            if (!confirm('确定删除此帖子吗？')) return;
-            try {
-                const r = await fetch(API+'/api/admin/posts/'+postId, { method:'DELETE', credentials:'include' });
-                if (r.ok) { toast('帖子已删除'); switchAdminTab('posts'); }
-                else { const d = await r.json(); toast(d.error||'删除失败','error'); }
-            } catch(e) { toast('网络错误','error'); }
-        }
-
-        // ===== 初始化 =====
-        fetchUser();
-        loadPosts();
-        loadStats();
-    </script>
-</body>
-</html>
